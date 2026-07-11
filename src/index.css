@@ -1,0 +1,65 @@
+@import 'tailwindcss';
+
+/*
+ * TRAVERSA AI 디자인 토큰
+ * 브랜드: 신뢰 · 차분함 · 국제적 · 고급스럽지만 접근 가능 · 데이터 기반
+ * 과도한 그라데이션과 전형적인 AI 챗봇 보라색을 피한다.
+ */
+@theme {
+  --color-brand-50: #f0f7f6;
+  --color-brand-100: #d9ecea;
+  --color-brand-200: #b3d9d6;
+  --color-brand-300: #7dbcb8;
+  --color-brand-500: #2a7d78;
+  --color-brand-600: #1f6560;
+  --color-brand-700: #1a524e;
+  --color-brand-800: #164340;
+  --color-brand-900: #123734;
+
+  --color-ink-50: #f7f8f8;
+  --color-ink-100: #eceeee;
+  --color-ink-200: #d5d9d9;
+  --color-ink-400: #8a9494;
+  --color-ink-500: #64706f;
+  --color-ink-600: #4a5453;
+  --color-ink-700: #364040;
+  --color-ink-800: #232b2b;
+  --color-ink-900: #151b1b;
+
+  --color-gold-500: #b98a2f;
+  --color-gold-100: #f5ead2;
+
+  --font-sans: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont,
+    'Apple SD Gothic Neo', 'Noto Sans KR', 'Segoe UI', sans-serif;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-ink-50 text-ink-800 antialiased;
+}
+
+::selection {
+  background: var(--color-brand-200);
+}
+
+/* 접근성: 키보드 포커스 링 */
+:focus-visible {
+  outline: 2px solid var(--color-brand-500);
+  outline-offset: 2px;
+}
+
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(90deg, var(--color-ink-100) 25%, #fff 37%, var(--color-ink-100) 63%);
+  background-size: 400px 100%;
+  animation: shimmer 1.4s ease infinite;
+}
