@@ -10,6 +10,7 @@ import { Button, EmptyState, LoadingSkeleton, SegmentedControl } from '../shared
 import { TripIntentCard } from '../ai/TripIntentCard';
 import { RecommendationCard } from '../search/RecommendationCard';
 import { RecommendationCompareTable } from '../search/RecommendationCompareTable';
+import { FlightPicker } from '../search/FlightPicker';
 import { ItineraryItemCard } from './ItineraryItemCard';
 import { DiffPanel } from './DiffPanel';
 import { formatDate } from '../../utils/format';
@@ -60,11 +61,27 @@ export function JourneyCanvas() {
           </div>
         )}
 
-        {/* 검색 결과 비교 (일정 생성 전) */}
+        {/* 검색 결과 (일정 생성 전) — 고객의 예약 순서대로 ① 항공 → ② 숙소 */}
+        {!itinerary && !isSearching && outcome && (
+          <section aria-label="항공편 선택" className="space-y-3">
+            <div>
+              <h3 className="text-base font-bold text-ink-800">
+                <span className="mr-1.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-brand-700 text-xs text-white">1</span>
+                항공편부터 골라주세요
+              </h3>
+              <p className="mt-1 text-xs text-ink-500">최저가 항공편이 기본 선택되어 있어요. 원하는 편으로 바꿀 수 있습니다.</p>
+            </div>
+            <FlightPicker flights={outcome.flightOffers} />
+          </section>
+        )}
+
         {!itinerary && !isSearching && outcome && (
           <section aria-label="추천 후보 비교" className="space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="text-base font-bold text-ink-800">AI 추천 후보 {outcome.recommendations.length}개</h3>
+              <h3 className="text-base font-bold text-ink-800">
+                <span className="mr-1.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-brand-700 text-xs text-white">2</span>
+                숙소를 선택하면 일정이 완성돼요
+              </h3>
               {outcome.recommendations.length > 1 && (
                 <SegmentedControl
                   ariaLabel="추천 보기 방식"

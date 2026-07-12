@@ -28,11 +28,12 @@ export interface SearchOutcome {
 
 export type TaskUpdateCallback = (tasks: AITask[]) => void;
 
+/** 고객의 실제 예약 순서를 따른다 — 항공을 먼저 확보한 뒤 숙소를 찾는다 */
 const TASK_LABELS = [
   '여행조건 확인',
   '목적지 분석',
-  '호텔 공급사 3곳 검색',
   '항공편 검색',
+  '호텔 공급사 3곳 검색',
   '이동시간 계산',
   '액티비티 검색',
   '일정 충돌 확인',
@@ -80,26 +81,26 @@ export async function runTravelSearch(
   const destResult = await travelGateway.getDestinationContext(req, req.destination ?? '');
   set(1, destResult.ok ? 'success' : 'failed', destResult.ok ? destResult.data?.name : destResult.errorMessage);
 
-  // 3. 호텔 공급사 3곳 병렬 검색
+  // 3. 항공편 검색 — 고객의 예약 순서상 가장 먼저 확보한다
   set(2, 'running');
+  const flightResult = await travelGateway.searchFlights(req);
+  const flightOffers = flightResult.ok && flightResult.data ? flightResult.data : [];
+  set(2, flightResult.ok ? 'success' : 'failed', flightResult.ok ? `${flightOffers.length}개 운임` : flightResult.errorMessage);
+
+  // 4. 호텔 공급사 3곳 병렬 검색
+  set(3, 'running');
   const hotelResults = await travelGateway.searchHotels(req);
   const hotelOffers = hotelResults.flatMap((r) => (r.ok && r.data ? r.data : []));
   const failedSuppliers = hotelResults.filter((r) => !r.ok).map((r) => r.supplierId ?? '?');
   const slowSuppliers = hotelResults.filter((r) => r.ok && r.status === 'degraded');
   const allHotelSuppliersFailed = hotelResults.every((r) => !r.ok);
   set(
-    2,
+    3,
     allHotelSuppliersFailed ? 'failed' : slowSuppliers.length > 0 ? 'slow' : 'success',
     allHotelSuppliersFailed
       ? '모든 호텔 공급사 응답 실패'
       : `${hotelOffers.length}개 객실 · ${failedSuppliers.length > 0 ? `${failedSuppliers.join(', ')} 실패` : '3개사 정상'}`,
   );
-
-  // 4. 항공편 검색
-  set(3, 'running');
-  const flightResult = await travelGateway.searchFlights(req);
-  const flightOffers = flightResult.ok && flightResult.data ? flightResult.data : [];
-  set(3, flightResult.ok ? 'success' : 'failed', flightResult.ok ? `${flightOffers.length}개 운임` : flightResult.errorMessage);
 
   // 5. 이동시간 계산
   set(4, 'running');
