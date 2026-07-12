@@ -19,7 +19,10 @@ import { uid } from '../../utils/id';
 
 export interface ItinerarySelections {
   hotel?: HotelOffer;
+  /** 가는 편 */
   flight?: FlightOffer;
+  /** 오는 편 (귀국) */
+  returnFlight?: FlightOffer;
   transport?: TransportOffer;
   activities: ActivityOffer[];
 }
@@ -47,7 +50,14 @@ export function generateItinerary(
     } else if (d === nights) {
       if (selections.hotel) items.push(checkoutItem(selections.hotel));
       items.push(estimatedItem('shopping', '기념품 쇼핑', '11:30', 90, destination?.name ?? '시내', 100000, false));
-      items.push(estimatedItem('transport', '공항 이동', '14:00', 90, '공항', 30000, false));
+      if (selections.returnFlight) {
+        // 귀국편 출발 3시간 전 공항 도착 기준으로 이동 시각을 잡는다
+        const transferStart = addMinutesToTime(selections.returnFlight.departureTime, -210);
+        items.push(estimatedItem('transport', '공항 이동', transferStart, 90, `${selections.returnFlight.from} 공항`, 30000, false));
+        items.push(flightItem(selections.returnFlight));
+      } else {
+        items.push(estimatedItem('transport', '공항 이동', '14:00', 90, '공항', 30000, false));
+      }
     } else {
       items.push(estimatedItem('meal', '조식', '08:30', 60, selections.hotel?.hotel.name ?? '호텔', 0, false));
       const activity = selections.activities[d - 1];
@@ -236,6 +246,7 @@ function estimatedItem(
 
 export function addMinutesToTime(hhmm: string, minutes: number): string {
   const [h, m] = hhmm.split(':').map(Number);
-  const total = (h * 60 + m + minutes) % (24 * 60);
+  const day = 24 * 60;
+  const total = (((h * 60 + m + minutes) % day) + day) % day; // 음수(전날 방향)도 안전하게 순환
   return `${String(Math.floor(total / 60)).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`;
 }

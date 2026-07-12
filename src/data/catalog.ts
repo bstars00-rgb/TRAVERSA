@@ -2,6 +2,8 @@
 
 export interface FlightSeed {
   destinationId: string;
+  /** 가는 편 / 오는 편 */
+  direction: 'outbound' | 'return';
   airline: string;
   flightNumber: string;
   from: string;
@@ -14,11 +16,23 @@ export interface FlightSeed {
 }
 
 export const FLIGHT_SEEDS: FlightSeed[] = [
-  { destinationId: 'hakone', airline: '대한항공', flightNumber: 'KE705', from: 'ICN', to: 'NRT', departureTime: '09:20', arrivalTime: '11:50', durationMinutes: 150, basePriceKRW: 420000, cabinClass: 'economy' },
-  { destinationId: 'hakone', airline: '아시아나항공', flightNumber: 'OZ102', from: 'ICN', to: 'HND', departureTime: '08:00', arrivalTime: '10:15', durationMinutes: 135, basePriceKRW: 460000, cabinClass: 'economy' },
-  { destinationId: 'singapore', airline: '싱가포르항공', flightNumber: 'SQ607', from: 'ICN', to: 'SIN', departureTime: '10:30', arrivalTime: '16:05', durationMinutes: 395, basePriceKRW: 780000, cabinClass: 'economy' },
-  { destinationId: 'singapore', airline: '스쿠트', flightNumber: 'TR899', from: 'ICN', to: 'SIN', departureTime: '01:10', arrivalTime: '06:35', durationMinutes: 385, basePriceKRW: 430000, cabinClass: 'economy' },
-  { destinationId: 'bangkok', airline: '베트남항공', flightNumber: 'VN601', from: 'SGN', to: 'BKK', departureTime: '11:40', arrivalTime: '13:05', durationMinutes: 85, basePriceKRW: 180000, cabinClass: 'economy' },
+  // 하코네 (도쿄 경유) — 가는 편
+  { destinationId: 'hakone', direction: 'outbound', airline: '대한항공', flightNumber: 'KE705', from: 'ICN', to: 'NRT', departureTime: '09:20', arrivalTime: '11:50', durationMinutes: 150, basePriceKRW: 420000, cabinClass: 'economy' },
+  { destinationId: 'hakone', direction: 'outbound', airline: '아시아나항공', flightNumber: 'OZ102', from: 'ICN', to: 'HND', departureTime: '08:00', arrivalTime: '10:15', durationMinutes: 135, basePriceKRW: 460000, cabinClass: 'economy' },
+  // 하코네 — 오는 편
+  { destinationId: 'hakone', direction: 'return', airline: '대한항공', flightNumber: 'KE706', from: 'NRT', to: 'ICN', departureTime: '17:30', arrivalTime: '20:05', durationMinutes: 155, basePriceKRW: 410000, cabinClass: 'economy' },
+  { destinationId: 'hakone', direction: 'return', airline: '아시아나항공', flightNumber: 'OZ101', from: 'HND', to: 'ICN', departureTime: '19:10', arrivalTime: '21:40', durationMinutes: 150, basePriceKRW: 450000, cabinClass: 'economy' },
+  // 싱가포르 — 가는 편
+  { destinationId: 'singapore', direction: 'outbound', airline: '싱가포르항공', flightNumber: 'SQ607', from: 'ICN', to: 'SIN', departureTime: '10:30', arrivalTime: '16:05', durationMinutes: 395, basePriceKRW: 780000, cabinClass: 'economy' },
+  { destinationId: 'singapore', direction: 'outbound', airline: '스쿠트', flightNumber: 'TR899', from: 'ICN', to: 'SIN', departureTime: '01:10', arrivalTime: '06:35', durationMinutes: 385, basePriceKRW: 430000, cabinClass: 'economy' },
+  // 싱가포르 — 오는 편
+  { destinationId: 'singapore', direction: 'return', airline: '싱가포르항공', flightNumber: 'SQ608', from: 'SIN', to: 'ICN', departureTime: '23:30', arrivalTime: '06:50', durationMinutes: 380, basePriceKRW: 760000, cabinClass: 'economy' },
+  { destinationId: 'singapore', direction: 'return', airline: '스쿠트', flightNumber: 'TR898', from: 'SIN', to: 'ICN', departureTime: '14:20', arrivalTime: '21:45', durationMinutes: 385, basePriceKRW: 420000, cabinClass: 'economy' },
+  // 방콕 (호찌민 출장 연계) — 가는 편
+  { destinationId: 'bangkok', direction: 'outbound', airline: '베트남항공', flightNumber: 'VN601', from: 'SGN', to: 'BKK', departureTime: '11:40', arrivalTime: '13:05', durationMinutes: 85, basePriceKRW: 180000, cabinClass: 'economy' },
+  // 방콕 — 오는 편 (귀국)
+  { destinationId: 'bangkok', direction: 'return', airline: '대한항공', flightNumber: 'KE652', from: 'BKK', to: 'ICN', departureTime: '21:55', arrivalTime: '05:20', durationMinutes: 325, basePriceKRW: 380000, cabinClass: 'economy' },
+  { destinationId: 'bangkok', direction: 'return', airline: '티웨이항공', flightNumber: 'TW102', from: 'BKK', to: 'ICN', departureTime: '23:40', arrivalTime: '07:10', durationMinutes: 330, basePriceKRW: 290000, cabinClass: 'economy' },
 ];
 
 export interface ActivitySeed {

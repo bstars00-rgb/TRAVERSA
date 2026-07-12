@@ -203,7 +203,7 @@ export const useConversationStore = create<ConversationState>()(
 
           const summary = outcome.allHotelSuppliersFailed
             ? '죄송해요. 모든 호텔 공급사 응답에 실패했습니다. 잠시 후 다시 검색하거나 조건을 바꿔보세요.'
-            : `검색이 끝났어요. 먼저 항공편 ${outcome.flightOffers.length}개 중 하나를 고르시고(최저가가 기본 선택되어 있어요), 이어서 숙소 추천 ${outcome.recommendations.length}개(Best Match / Best Value / Premium)를 비교해 선택하시면 일정이 완성됩니다.${
+            : `검색이 끝났어요. 먼저 가는 편·오는 편 항공을 확인해주세요(방향별 최저가가 기본 선택되어 있어요). 이어서 숙소 추천 ${outcome.recommendations.length}개(Best Match / Best Value / Premium)를 비교해 선택하시면 왕복 항공이 포함된 일정이 완성됩니다.${
                 outcome.failedSuppliers.length > 0
                   ? `\n\n참고: ${outcome.failedSuppliers.join(', ')} 공급사는 응답하지 않아 결과에서 제외되었습니다.`
                   : ''
@@ -234,15 +234,19 @@ export const useConversationStore = create<ConversationState>()(
           .filter((a) => !hasChild || a.minAge === undefined || a.minAge <= 6)
           .slice(0, Math.max(1, (intent.duration ?? 3) - 1));
 
-        // 1단계에서 고객이 선택한 항공편을 일정에 반영
-        const selectedFlightId = useSearchStore.getState().selectedFlightId;
+        // 1단계에서 고객이 선택한 왕복 항공편을 일정에 반영
+        const { selectedOutboundId, selectedReturnId } = useSearchStore.getState();
         const flight =
-          outcome?.flightOffers.find((f) => f.supplierOfferId === selectedFlightId) ??
-          outcome?.flightOffers[0];
+          outcome?.flightOffers.find((f) => f.supplierOfferId === selectedOutboundId) ??
+          outcome?.flightOffers.find((f) => f.direction === 'outbound');
+        const returnFlight =
+          outcome?.flightOffers.find((f) => f.supplierOfferId === selectedReturnId) ??
+          outcome?.flightOffers.find((f) => f.direction === 'return');
 
         const itinerary = generateItinerary(trip.tripId ?? uid('trip'), intent, {
           hotel: rec.scored.offer,
           flight,
+          returnFlight,
           transport: outcome?.transportOffers[0],
           activities,
         });

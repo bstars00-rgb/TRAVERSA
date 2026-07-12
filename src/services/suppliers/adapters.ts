@@ -148,6 +148,7 @@ export function searchFlightsFromSupplier(
     return {
       ...base,
       kind: 'flight' as const,
+      direction: f.direction,
       airline: f.airline,
       flightNumber: f.flightNumber,
       from: f.from,

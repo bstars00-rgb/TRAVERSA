@@ -133,6 +133,8 @@ export interface HotelOffer extends SupplierOfferBase {
 
 export interface FlightOffer extends SupplierOfferBase {
   kind: 'flight';
+  /** 가는 편 / 오는 편 */
+  direction: 'outbound' | 'return';
   airline: string;
   flightNumber: string;
   from: string;
