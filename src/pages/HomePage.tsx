@@ -71,9 +71,8 @@ export function HomePage() {
             <Sparkles size={12} /> 나만의 AI 여행 컨설턴트
           </span>
           <h1 className="anim-fade-up anim-d2 text-3xl font-bold leading-snug text-ink-900 md:text-5xl md:leading-snug">
-            어디로 갈지 몰라도 괜찮습니다.
-            <br />
-            당신에게 맞는 여행부터 함께 설계할게요.
+            <span className="block">어디로 갈지 몰라도 괜찮습니다.</span>
+            <span className="block">당신에게 맞는 여행부터 함께 설계할게요.</span>
           </h1>
 
           <form

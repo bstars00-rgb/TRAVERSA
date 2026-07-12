@@ -46,6 +46,17 @@ html {
 
 body {
   @apply bg-ink-50 text-ink-800 antialiased;
+  /* 한국어는 단어(어절) 단위로 줄바꿈 — 글자 단위로 끊기는 어색함 방지 */
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 제목은 줄 길이를 균형 있게 나눠 마지막 줄에 한두 글자만 남는 것을 방지 */
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
 }
 
 ::selection {
