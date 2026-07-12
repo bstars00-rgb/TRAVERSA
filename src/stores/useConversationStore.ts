@@ -229,10 +229,11 @@ export const useConversationStore = create<ConversationState>()(
           `호텔 선택: ${rec.scored.offer.hotel.name} (${rec.scored.offer.supplierName})`,
         );
 
+        // 검색된 어트랙션·티켓·체험을 모두 일정에 담는다 (연령 제한만 필터)
         const hasChild = intent.travelerTypes.includes('child');
-        const activities = (outcome?.activityOffers ?? [])
-          .filter((a) => !hasChild || a.minAge === undefined || a.minAge <= 6)
-          .slice(0, Math.max(1, (intent.duration ?? 3) - 1));
+        const activities = (outcome?.activityOffers ?? []).filter(
+          (a) => !hasChild || a.minAge === undefined || a.minAge <= 6,
+        );
 
         // 1단계에서 고객이 선택한 왕복 항공편을 일정에 반영
         const { selectedOutboundId, selectedReturnId } = useSearchStore.getState();
@@ -252,11 +253,15 @@ export const useConversationStore = create<ConversationState>()(
         });
         useItineraryStore.getState().setItinerary(itinerary);
 
+        const includedActivities = Math.min(
+          activities.length,
+          (intent.pace === 'relaxed' ? 1 : 2) * Math.max(0, (intent.duration ?? 3) - 1),
+        );
         set((s) => ({
           messages: [
             ...s.messages,
             assistantMessage(
-              `${rec.scored.offer.hotel.name}을(를) 중심으로 ${intent.duration ?? itinerary.days.length - 1}박 일정을 구성했어요. Journey Canvas에서 날짜별 일정을 확인하고, 자연어로 수정을 요청할 수 있어요.\n\n예: "둘째 날 일정을 여유롭게 바꿔줘", "전체 비용을 20만 원 낮춰줘"`,
+              `${rec.scored.offer.hotel.name}을(를) 중심으로 왕복 항공 · 공항 픽업 · 어트랙션/티켓 ${includedActivities}건까지 한 번에 담아 ${intent.duration ?? itinerary.days.length - 1}박 일정을 구성했어요. 필요 없는 항목은 대화로 빼달라고 하시면 됩니다.\n\n예: "둘째 날 일정을 여유롭게 바꿔줘", "전체 비용을 20만 원 낮춰줘"`,
             ),
           ],
         }));

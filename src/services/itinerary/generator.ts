@@ -38,6 +38,11 @@ export function generateItinerary(
   const relaxed = intent.pace === 'relaxed';
   const days: ItineraryDay[] = [];
 
+  // 가능한 모든 상품(어트랙션·티켓·체험)을 한 번에 일정에 배분한다.
+  // 여유 페이스는 하루 1개, 그 외에는 하루 최대 2개.
+  const perDay = relaxed ? 1 : 2;
+  let activityCursor = 0;
+
   for (let d = 0; d <= nights; d++) {
     const date = format(addDays(parseISO(startIso), d), 'yyyy-MM-dd');
     const items: ItineraryItem[] = [];
@@ -60,13 +65,21 @@ export function generateItinerary(
       }
     } else {
       items.push(estimatedItem('meal', '조식', '08:30', 60, selections.hotel?.hotel.name ?? '호텔', 0, false));
-      const activity = selections.activities[d - 1];
-      if (activity) {
-        items.push(activityItem(activity, '10:30'));
+      const morning = selections.activities[activityCursor];
+      if (morning) {
+        activityCursor += 1;
+        items.push(activityItem(morning, '10:00'));
       } else {
         items.push(estimatedItem('sightseeing', `${destination?.name ?? '현지'} 산책과 관광`, '10:30', relaxed ? 120 : 180, destination?.name ?? '시내', 30000, true));
       }
-      items.push(restItem(relaxed ? '15:00' : '16:30', relaxed ? 150 : 90));
+      items.push(restItem(relaxed ? '15:00' : '14:30', relaxed ? 150 : 60));
+      if (perDay > 1) {
+        const afternoon = selections.activities[activityCursor];
+        if (afternoon) {
+          activityCursor += 1;
+          items.push(activityItem(afternoon, '16:00'));
+        }
+      }
       items.push(
         estimatedItem(
           'meal',

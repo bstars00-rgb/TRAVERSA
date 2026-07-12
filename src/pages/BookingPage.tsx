@@ -7,6 +7,7 @@ import { Badge, Button, EmptyState, Modal, ProgressSteps, SourceTag } from '../c
 import { BookingItemCard } from '../components/booking/BookingItemCard';
 import { TravelerForm } from '../components/booking/TravelerForm';
 import { RecheckSection } from '../components/booking/RecheckSection';
+import { PaymentMethodSection } from '../components/booking/PaymentMethodSection';
 import { formatMoney } from '../utils/currency';
 import { formatDate } from '../utils/format';
 
@@ -125,6 +126,9 @@ export function BookingPage() {
           </ul>
         </section>
 
+        {/* 통합 결제 — 카드 한 장으로 모든 판매처 정산 */}
+        <PaymentMethodSection preparation={preparation} />
+
         {/* 총액 + CTA */}
         <section className="rounded-xl border-2 border-brand-200 bg-white p-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -149,7 +153,10 @@ export function BookingPage() {
           footer={<Button onClick={() => setDemoModalOpen(false)}>확인</Button>}
         >
           <p className="font-medium text-ink-800">프로토타입에서는 실제 예약과 결제가 실행되지 않습니다.</p>
-          <p className="mt-3 text-xs text-ink-500">실제 서비스에서는 다음 구조로 진행됩니다.</p>
+          <p className="mt-3 text-xs text-ink-500">
+            실제 서비스에서는 카드 한 장으로 1회만 승인하면, TRAVERSA가 대표 가맹점(Merchant of Record)으로서
+            아래 구조를 통해 모든 판매처에 자동 정산합니다.
+          </p>
           <ol className="mt-2 space-y-1 text-xs text-ink-600">
             {[
               'Payment Orchestrator',
