@@ -59,6 +59,14 @@ h4 {
   text-wrap: balance;
 }
 
+/* 본문 문단은 마지막 줄 고아 단어를 피하도록 줄바꿈 위치를 조정 */
+p,
+li,
+dd,
+dt {
+  text-wrap: pretty;
+}
+
 ::selection {
   background: var(--color-brand-200);
 }

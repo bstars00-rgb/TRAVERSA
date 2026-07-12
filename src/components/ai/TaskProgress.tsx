@@ -7,7 +7,7 @@ export function TaskProgress({ tasks }: { tasks: AITask[] }) {
   return (
     <ul className="mt-2 space-y-1 rounded-lg border border-ink-100 bg-ink-50 p-2.5" aria-label="AI 작업 상태">
       {tasks.map((task) => (
-        <li key={task.id} className="flex items-center gap-2 text-xs">
+        <li key={task.id} className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs">
           <TaskIcon state={task.state} />
           <span
             className={
@@ -20,7 +20,7 @@ export function TaskProgress({ tasks }: { tasks: AITask[] }) {
           >
             {task.label}
           </span>
-          {task.detail && <span className="truncate text-xs text-ink-400">— {task.detail}</span>}
+          {task.detail && <span className="min-w-0 text-xs text-ink-400">— {task.detail}</span>}
         </li>
       ))}
     </ul>
