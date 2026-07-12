@@ -53,6 +53,16 @@ export function BookingPage() {
           <p className="text-xs text-ink-500">결제 직전까지의 준비 단계입니다. 모든 승인은 사용자가 직접 수행합니다.</p>
         </div>
 
+        <div className="flex items-start gap-2.5 rounded-xl border border-emerald-200 bg-emerald-50 p-3" role="note">
+          <ShieldCheck size={16} className="mt-0.5 shrink-0 text-emerald-700" />
+          <p className="text-xs leading-relaxed text-emerald-900">
+            <strong>안심하세요 — 이 단계에서는 아무것도 결제되지 않아요.</strong>
+            <br />
+            가격을 다시 확인하고, 여행자 정보를 입력하고, 조건에 동의하는 준비 과정이에요. 마지막 결제 버튼을
+            누르기 전까지 언제든 수정하거나 그만둘 수 있어요.
+          </p>
+        </div>
+
         <ProgressSteps steps={steps} onStepClick={(id) => goToStep(id as typeof preparation.currentStep)} />
 
         <RecheckSection />

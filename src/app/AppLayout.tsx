@@ -12,15 +12,20 @@ import {
 } from 'lucide-react';
 import { ToastHost } from '../components/shared';
 
-const NAV_ITEMS = [
-  { to: '/trip', label: '워크스페이스', icon: Compass },
+/** 소비자용 주 메뉴 */
+const PRIMARY_NAV = [
+  { to: '/trip', label: '내 여행', icon: Compass },
   { to: '/booking', label: '예약 준비', icon: CreditCard },
   { to: '/future-journey', label: '미래 여행', icon: Sparkles },
   { to: '/memory', label: '여행 기억', icon: Brain },
-  { to: '/mcp-monitor', label: 'MCP 모니터', icon: Activity },
+];
+
+/** 데모·운영자용 보조 메뉴 (아이콘만, 구분선 뒤) */
+const SECONDARY_NAV = [
+  { to: '/mcp-monitor', label: '판매처 연결 상태', icon: Activity },
   { to: '/activity-log', label: '이벤트 로그', icon: ListTree },
   { to: '/design-system', label: '디자인 시스템', icon: Palette },
-  { to: '/settings', label: '설정', icon: Settings },
+  { to: '/settings', label: '설정 · 데모', icon: Settings },
 ];
 
 export function AppLayout() {
@@ -38,7 +43,7 @@ export function AppLayout() {
             </span>
           </NavLink>
           <nav aria-label="주 메뉴" className="ml-auto flex items-center gap-0.5 overflow-x-auto">
-            {NAV_ITEMS.map(({ to, label, icon: Icon }) => (
+            {PRIMARY_NAV.map(({ to, label, icon: Icon }) => (
               <NavLink
                 key={to}
                 to={to}
@@ -49,7 +54,23 @@ export function AppLayout() {
                 }
               >
                 <Icon size={14} />
-                <span className="hidden lg:inline">{label}</span>
+                <span className="hidden md:inline">{label}</span>
+              </NavLink>
+            ))}
+            <span className="mx-1.5 hidden h-4 w-px shrink-0 bg-ink-200 md:block" aria-hidden />
+            {SECONDARY_NAV.map(({ to, label, icon: Icon }) => (
+              <NavLink
+                key={to}
+                to={to}
+                title={label}
+                aria-label={label}
+                className={({ isActive }) =>
+                  `flex shrink-0 items-center rounded-lg p-1.5 transition-colors ${
+                    isActive ? 'bg-brand-100 text-brand-800' : 'text-ink-400 hover:bg-ink-100 hover:text-ink-600'
+                  }`
+                }
+              >
+                <Icon size={14} />
               </NavLink>
             ))}
           </nav>

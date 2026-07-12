@@ -53,6 +53,16 @@ body {
   outline-offset: 2px;
 }
 
+/* 호텔/목적지 이미지 플레이스홀더 — 외부 이미지 없이 톤으로 분위기를 전달 */
+.tone-ryokan-luxury { background: linear-gradient(135deg, #2d4a43, #8a6f4d); }
+.tone-modern-onsen { background: linear-gradient(135deg, #1f6560, #7dbcb8); }
+.tone-classic-hotel { background: linear-gradient(135deg, #4a5453, #8a9494); }
+.tone-garden-resort { background: linear-gradient(135deg, #1d5c3f, #7cb890); }
+.tone-family-resort { background: linear-gradient(135deg, #1f6072, #78c0d0); }
+.tone-riverside-heritage { background: linear-gradient(135deg, #5c4a2d, #b98a2f); }
+.tone-boutique-river { background: linear-gradient(135deg, #34455c, #7d9cbc); }
+.tone-destination { background: linear-gradient(135deg, var(--color-brand-800), var(--color-brand-500)); }
+
 @keyframes shimmer {
   0% { background-position: -400px 0; }
   100% { background-position: 400px 0; }

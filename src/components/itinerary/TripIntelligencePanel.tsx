@@ -34,7 +34,7 @@ export function TripIntelligencePanel() {
   return (
     <div className="flex h-full flex-col">
       <div className="border-b border-ink-100 px-4 py-2.5">
-        <h2 className="text-xs font-semibold uppercase tracking-wide text-ink-500">Trip Intelligence</h2>
+        <h2 className="text-xs font-semibold text-ink-700">한눈에 보기</h2>
       </div>
 
       <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-3">

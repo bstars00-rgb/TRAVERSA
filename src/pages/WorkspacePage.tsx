@@ -2,6 +2,8 @@ import { CalendarRange, MessageSquareText, Wallet } from 'lucide-react';
 import { ConversationPanel } from '../components/ai/ConversationPanel';
 import { JourneyCanvas } from '../components/itinerary/JourneyCanvas';
 import { TripIntelligencePanel } from '../components/itinerary/TripIntelligencePanel';
+import { useItineraryStore } from '../stores/useItineraryStore';
+import { useSearchStore } from '../stores/useSearchStore';
 import { useUIStore, type MobileTab } from '../stores/useUIStore';
 
 const MOBILE_TABS: { id: MobileTab; label: string; icon: React.ReactNode }[] = [
@@ -14,6 +16,14 @@ const MOBILE_TABS: { id: MobileTab; label: string; icon: React.ReactNode }[] = [
 export function WorkspacePage() {
   const mobileTab = useUIStore((s) => s.mobileTab);
   const setMobileTab = useUIStore((s) => s.setMobileTab);
+  const hasItinerary = useItineraryStore((s) => s.itinerary !== null);
+  const hasOutcome = useSearchStore((s) => s.outcome !== null);
+  // 여행계획 탭에 새 콘텐츠가 있음을 알리는 점 표시
+  const tabDot: Record<MobileTab, boolean> = {
+    chat: false,
+    plan: hasItinerary || hasOutcome,
+    booking: hasItinerary,
+  };
 
   return (
     <div className="flex h-full flex-col">
@@ -36,10 +46,13 @@ export function WorkspacePage() {
             key={tab.id}
             onClick={() => setMobileTab(tab.id)}
             aria-current={mobileTab === tab.id ? 'page' : undefined}
-            className={`flex flex-1 flex-col items-center gap-0.5 py-2.5 text-[10px] font-medium cursor-pointer ${
+            className={`relative flex flex-1 flex-col items-center gap-0.5 py-2.5 text-[10px] font-medium cursor-pointer ${
               mobileTab === tab.id ? 'text-brand-700' : 'text-ink-400'
             }`}
           >
+            {tabDot[tab.id] && mobileTab !== tab.id && (
+              <span className="absolute right-[calc(50%-14px)] top-2 h-1.5 w-1.5 rounded-full bg-brand-500" aria-hidden />
+            )}
             {tab.icon}
             {tab.label}
           </button>

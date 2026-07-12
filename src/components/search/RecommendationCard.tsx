@@ -13,10 +13,10 @@ import { formatMoney } from '../../utils/currency';
 import { formatDateTime, formatTimeAgo } from '../../utils/format';
 import { useConversationStore } from '../../stores/useConversationStore';
 
-const STRATEGY_TONE: Record<HotelRecommendation['strategy'], 'brand' | 'success' | 'gold'> = {
-  best_match: 'brand',
-  best_value: 'success',
-  premium: 'gold',
+const STRATEGY_META: Record<HotelRecommendation['strategy'], { tone: 'brand' | 'success' | 'gold'; subtitle: string }> = {
+  best_match: { tone: 'brand', subtitle: '내 조건에 딱 맞아요' },
+  best_value: { tone: 'success', subtitle: '가장 합리적인 선택' },
+  premium: { tone: 'gold', subtitle: '한 단계 높은 경험' },
 };
 
 export function RecommendationCard({ rec }: { rec: HotelRecommendation }) {
@@ -24,23 +24,37 @@ export function RecommendationCard({ rec }: { rec: HotelRecommendation }) {
   const selectRecommendation = useConversationStore((s) => s.selectRecommendation);
   const { offer, matches, mismatches, riskNotes, reasons, score } = rec.scored;
   const hotel = offer.hotel;
+  const strategyMeta = STRATEGY_META[rec.strategy];
+  const nightly = Math.round(offer.totalPrice.amount / Math.max(1, offer.nights));
 
   return (
-    <article className="rounded-xl border border-ink-100 bg-white p-4 shadow-sm">
-      <div className="flex flex-wrap items-start justify-between gap-2">
-        <div>
-          <Badge tone={STRATEGY_TONE[rec.strategy]}>{rec.strategyLabel}</Badge>
-          <h4 className="mt-1.5 text-sm font-bold text-ink-900">
-            {hotel.name} <span className="text-xs font-normal text-ink-400">{'★'.repeat(hotel.starRating)} · 평점 {hotel.reviewScore}</span>
-          </h4>
-          <p className="mt-0.5 flex items-center gap-1 text-[11px] text-ink-500">
-            <MapPin size={11} /> {hotel.location}
-          </p>
+    <article className="overflow-hidden rounded-2xl border border-ink-100 bg-white shadow-sm">
+      {/* 비주얼 헤더 — 외부 이미지 없이 호텔 톤으로 분위기 전달 */}
+      <div className={`tone-${hotel.imageTone} relative flex h-24 items-end p-3`}>
+        <div className="absolute right-3 top-3 flex items-center gap-1 rounded-lg bg-white/90 px-2 py-1 text-[11px] font-bold text-ink-800">
+          ⭐ {hotel.reviewScore}
+          <span className="font-normal text-ink-400">/ 10</span>
         </div>
+        <div>
+          <Badge tone={strategyMeta.tone}>{rec.strategyLabel} · {strategyMeta.subtitle}</Badge>
+          <h4 className="mt-1 text-base font-bold text-white drop-shadow">
+            {hotel.name} <span className="text-xs font-normal text-white/80">{'★'.repeat(hotel.starRating)}</span>
+          </h4>
+        </div>
+      </div>
+
+      <div className="p-4 pt-3">
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <p className="flex items-center gap-1 text-[11px] text-ink-500">
+          <MapPin size={11} /> {hotel.location}
+        </p>
         <div className="text-right">
+          <p className="text-[11px] text-ink-500">
+            1박 약 <strong className="text-ink-700">{formatMoney({ amount: nightly, currency: offer.totalPrice.currency })}</strong>
+          </p>
           <PriceDisplay amount={offer.totalPrice} status="retrieved" size="lg" />
           <p className="mt-0.5 text-[10px] text-ink-400">
-            {offer.nights}박 · 세금 {formatMoney(offer.taxes)} · 수수료 {formatMoney(offer.fees)} 포함
+            {offer.nights}박 총액 · 세금 {formatMoney(offer.taxes)} · 수수료 {formatMoney(offer.fees)} 포함
           </p>
         </div>
       </div>
@@ -131,8 +145,10 @@ export function RecommendationCard({ rec }: { rec: HotelRecommendation }) {
         </ul>
       )}
 
-      <div className="mt-3 flex justify-end">
+      <div className="mt-3 flex items-center justify-between gap-2">
+        <p className="text-[10px] text-ink-400">지금은 일정에 담기만 해요. 결제는 마지막에 내가 승인해요.</p>
         <Button onClick={() => selectRecommendation(rec)}>이 호텔로 일정 만들기</Button>
+      </div>
       </div>
     </article>
   );

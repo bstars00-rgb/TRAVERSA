@@ -77,17 +77,18 @@ export function Badge({ tone = 'neutral', children, className = '' }: { tone?: B
 
 // ---------- StatusBadge (예약 상태) ----------
 
+/** B2C 사용자에게는 한글 상태를 보여준다 (내부 상태 코드는 그대로 유지) */
 const BOOKING_STATUS_META: Record<BookingStatus, { label: string; tone: BadgeTone }> = {
-  idea: { label: 'Idea', tone: 'neutral' },
-  searching: { label: 'Searching', tone: 'brand' },
-  compared: { label: 'Compared', tone: 'brand' },
-  selected: { label: 'Selected', tone: 'brand' },
-  rechecking: { label: 'Rechecking', tone: 'warning' },
-  ready_to_book: { label: 'Ready to book', tone: 'success' },
-  on_hold: { label: 'On hold', tone: 'gold' },
-  confirmed: { label: 'Confirmed', tone: 'success' },
-  failed: { label: 'Failed', tone: 'danger' },
-  needs_attention: { label: 'Needs attention', tone: 'danger' },
+  idea: { label: '자유 일정', tone: 'neutral' },
+  searching: { label: '찾는 중', tone: 'brand' },
+  compared: { label: '비교 완료', tone: 'brand' },
+  selected: { label: '일정에 담김', tone: 'brand' },
+  rechecking: { label: '재확인 중', tone: 'warning' },
+  ready_to_book: { label: '예약 준비 완료', tone: 'success' },
+  on_hold: { label: '가격 홀드 중', tone: 'gold' },
+  confirmed: { label: '예약 확정', tone: 'success' },
+  failed: { label: '예약 불가', tone: 'danger' },
+  needs_attention: { label: '확인 필요', tone: 'danger' },
 };
 
 export function StatusBadge({ status }: { status: BookingStatus }) {
@@ -98,11 +99,11 @@ export function StatusBadge({ status }: { status: BookingStatus }) {
 // ---------- PriceDisplay (가격 + 가격 상태) ----------
 
 export const PRICE_STATUS_META: Record<PriceStatus, { label: string; tone: BadgeTone; description: string }> = {
-  estimated: { label: 'Estimated', tone: 'neutral', description: 'AI가 예상한 금액' },
-  retrieved: { label: 'Retrieved', tone: 'brand', description: '공급사에서 검색된 금액' },
-  rechecked: { label: 'Rechecked', tone: 'success', description: '최신 가격으로 재확인한 금액' },
-  locked: { label: 'Locked', tone: 'gold', description: '일정 시간 보장된 금액' },
-  changed: { label: 'Changed', tone: 'danger', description: '가격이 변경된 상태' },
+  estimated: { label: '예상 금액', tone: 'neutral', description: 'AI가 예상한 금액 — 실제 가격은 검색 후 확정돼요' },
+  retrieved: { label: '실시간 가격', tone: 'brand', description: '판매처에서 방금 확인한 금액' },
+  rechecked: { label: '재확인 완료', tone: 'success', description: '예약 직전 최신 가격으로 다시 확인했어요' },
+  locked: { label: '가격 보장', tone: 'gold', description: '일정 시간 동안 이 가격이 보장돼요' },
+  changed: { label: '가격 변동', tone: 'danger', description: '가격이 바뀌었어요 — 진행 여부를 선택해주세요' },
 };
 
 export function PriceDisplay({
@@ -176,17 +177,36 @@ export function ConfidenceIndicator({ value, label }: { value: number; label?: s
 
 // ---------- SourceTag (정보 출처 구분 — 핵심 UX 원칙) ----------
 
-const SOURCE_META: Record<DataSourceType, { label: string; className: string }> = {
-  ai_recommendation: { label: 'AI Recommendation', className: 'bg-ink-100 text-ink-600 border-ink-200' },
-  live_supplier_data: { label: 'Live Supplier Data', className: 'bg-brand-100 text-brand-800 border-brand-200' },
-  user_confirmed: { label: 'User-confirmed', className: 'bg-emerald-50 text-emerald-800 border-emerald-200' },
-  booking_confirmation: { label: 'Booking Confirmation', className: 'bg-gold-100 text-gold-500 border-amber-200' },
+const SOURCE_META: Record<DataSourceType, { label: string; title: string; className: string }> = {
+  ai_recommendation: {
+    label: 'AI 추천',
+    title: 'AI가 제안한 내용이에요. 예약 전 실시간 가격으로 다시 확인해요.',
+    className: 'bg-ink-100 text-ink-600 border-ink-200',
+  },
+  live_supplier_data: {
+    label: '실시간 확인',
+    title: '판매처에서 실시간으로 받아온 확정 정보예요.',
+    className: 'bg-brand-100 text-brand-800 border-brand-200',
+  },
+  user_confirmed: {
+    label: '내가 확인함',
+    title: '사용자가 직접 확인·승인한 항목이에요.',
+    className: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+  },
+  booking_confirmation: {
+    label: '예약 확정',
+    title: '판매처가 발급한 예약 확정 정보예요.',
+    className: 'bg-gold-100 text-gold-500 border-amber-200',
+  },
 };
 
 export function SourceTag({ source }: { source: DataSourceType }) {
   const meta = SOURCE_META[source];
   return (
-    <span className={`inline-flex items-center rounded border px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${meta.className}`}>
+    <span
+      title={meta.title}
+      className={`inline-flex items-center rounded border px-1.5 py-0.5 text-[10px] font-semibold tracking-wide ${meta.className}`}
+    >
       {meta.label}
     </span>
   );

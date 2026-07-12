@@ -7,6 +7,8 @@ import tailwindcss from '@tailwindcss/vite';
 // local dev, custom domains, and user/organization root pages.
 export default defineConfig({
   base: process.env.VITE_BASE_PATH ?? '/',
+  // 개발 서버 포트는 PORT 환경변수를 우선 사용 (프리뷰 도구의 자동 포트 할당 지원)
+  server: { port: Number(process.env.PORT) || 5173 },
   plugins: [react(), tailwindcss()],
   build: {
     rollupOptions: {

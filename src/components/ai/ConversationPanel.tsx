@@ -1,13 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
-import { Loader2, Mic, Paperclip, Plus, SendHorizonal } from 'lucide-react';
+import { Loader2, Mic, Paperclip, Plus, SendHorizonal, Sparkles } from 'lucide-react';
 import { useConversationStore } from '../../stores/useConversationStore';
+import { useTripStore } from '../../stores/useTripStore';
 import { useUIStore } from '../../stores/useUIStore';
 import { SourceTag, IconButton, ConfirmDialog } from '../shared';
 import { TaskProgress } from './TaskProgress';
 import { AgentActivityStrip } from './AgentActivityStrip';
 
+const WELCOME_STARTERS = [
+  '부모님과 많이 걷지 않는 일본 온천여행',
+  '6세 아이와 싱가포르 4박 가족여행',
+  '혼자 조용히 쉬고 오는 방콕 2박',
+];
+
 export function ConversationPanel() {
   const { messages, busy, sendUserMessage, startNewTrip } = useConversationStore();
+  const confidence = useTripStore((s) => s.intent.confidenceScore);
   const pushToast = useUIStore((s) => s.pushToast);
   const [input, setInput] = useState('');
   const [confirmNewTrip, setConfirmNewTrip] = useState(false);
@@ -26,27 +34,63 @@ export function ConversationPanel() {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between border-b border-ink-100 px-4 py-2.5">
-        <h2 className="text-xs font-semibold uppercase tracking-wide text-ink-500">Conversation</h2>
-        <button
-          onClick={() => setConfirmNewTrip(true)}
-          className="flex items-center gap-1 rounded-md px-2 py-1 text-[11px] font-medium text-brand-700 hover:bg-brand-50 cursor-pointer"
-        >
-          <Plus size={12} /> 새 여행 시작
-        </button>
+      <div className="border-b border-ink-100 px-4 py-2.5">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xs font-semibold text-ink-700">여행 상담</h2>
+          <button
+            onClick={() => setConfirmNewTrip(true)}
+            className="flex items-center gap-1 rounded-md px-2 py-1 text-[11px] font-medium text-brand-700 hover:bg-brand-50 cursor-pointer"
+          >
+            <Plus size={12} /> 새 여행 시작
+          </button>
+        </div>
+        {messages.length > 0 && confidence < 1 && (
+          <div className="mt-1.5 flex items-center gap-2" aria-label="여행 조건 파악 진행도">
+            <span className="text-[10px] text-ink-400">여행 조건 파악</span>
+            <div className="h-1 flex-1 overflow-hidden rounded-full bg-ink-100">
+              <div
+                className="h-full rounded-full bg-brand-500 transition-all duration-500"
+                style={{ width: `${Math.round(confidence * 100)}%` }}
+              />
+            </div>
+            <span className="text-[10px] tabular-nums text-ink-400">{Math.round(confidence * 100)}%</span>
+          </div>
+        )}
       </div>
 
       <div className="min-h-0 flex-1 overflow-y-auto p-3">
         {messages.length === 0 && (
-          <p className="mt-8 px-4 text-center text-xs leading-relaxed text-ink-400">
-            아직 대화가 없습니다.
-            <br />
-            가고 싶은 여행을 자유롭게 설명해보세요.
-          </p>
+          <div className="mt-6 rounded-2xl border border-brand-100 bg-brand-50/60 p-4 text-center">
+            <span className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-brand-700 text-white">
+              <Sparkles size={17} />
+            </span>
+            <p className="mt-2.5 text-sm font-semibold text-ink-800">안녕하세요, 여행 컨설턴트예요 🙂</p>
+            <p className="mt-1 text-xs leading-relaxed text-ink-500">
+              누구와, 언제쯤, 어떤 여행을 하고 싶은지
+              <br />
+              편하게 말씀해주세요. 나머지는 제가 찾아드릴게요.
+            </p>
+            <div className="mt-3 flex flex-col gap-1.5">
+              {WELCOME_STARTERS.map((s) => (
+                <button
+                  key={s}
+                  onClick={() => submit(s)}
+                  className="rounded-xl border border-brand-200 bg-white px-3 py-2 text-xs text-brand-700 transition-colors hover:bg-brand-100 cursor-pointer"
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
         )}
         <ul className="space-y-3">
           {messages.map((msg) => (
-            <li key={msg.id} className={msg.role === 'user' ? 'flex justify-end' : 'flex justify-start'}>
+            <li key={msg.id} className={msg.role === 'user' ? 'flex justify-end' : 'flex items-start gap-2'}>
+              {msg.role === 'assistant' && (
+                <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-700 text-white" aria-hidden>
+                  <Sparkles size={11} />
+                </span>
+              )}
               <div
                 className={`max-w-[92%] rounded-2xl px-3.5 py-2.5 text-[13px] leading-relaxed ${
                   msg.role === 'user'
