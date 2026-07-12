@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, BadgeCheck, MessageCircleHeart, ShieldCheck, Sparkles, Wallet } from 'lucide-react';
 import { useConversationStore } from '../stores/useConversationStore';
@@ -24,6 +24,14 @@ const TRUST_POINTS = [
   { icon: BadgeCheck, text: 'AI가 몰래 결제하는 일 없음' },
 ];
 
+/** 입력창 플레이스홀더 순환 — 무엇을 말해도 된다는 걸 자연스럽게 보여준다 */
+const ROTATING_PLACEHOLDERS = [
+  '예: 8월에 부모님과 일본 온천 5박 6일, 예산 300만 원',
+  '예: 아이랑 처음 가는 해외여행, 어디가 좋을까?',
+  '예: 다음 달에 혼자 3박, 조용히 쉬고 싶어',
+  '예: 결혼기념일 여행, 분위기 좋은 호텔로',
+];
+
 const DESTINATION_EMOJI: Record<string, string> = {
   hakone: '♨️',
   yufuin: '🌿',
@@ -34,9 +42,18 @@ const DESTINATION_EMOJI: Record<string, string> = {
 
 export function HomePage() {
   const [input, setInput] = useState('');
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const navigate = useNavigate();
   const sendUserMessage = useConversationStore((s) => s.sendUserMessage);
   const hasMessages = useConversationStore((s) => s.messages.length > 0);
+
+  useEffect(() => {
+    const timer = setInterval(
+      () => setPlaceholderIndex((i) => (i + 1) % ROTATING_PLACEHOLDERS.length),
+      3500,
+    );
+    return () => clearInterval(timer);
+  }, []);
 
   const submit = (text: string) => {
     const trimmed = text.trim();
@@ -50,17 +67,17 @@ export function HomePage() {
       <div className="mx-auto w-full max-w-3xl px-4 pb-16 pt-10 md:pt-16">
         {/* 히어로 */}
         <div className="text-center">
-          <span className="mb-5 inline-flex items-center gap-1.5 rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-[11px] font-medium text-brand-700">
+          <span className="anim-fade-up anim-d1 mb-5 inline-flex items-center gap-1.5 rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-[11px] font-medium text-brand-700">
             <Sparkles size={12} /> 나만의 AI 여행 컨설턴트
           </span>
-          <h1 className="text-2xl font-bold leading-snug text-ink-900 md:text-4xl">
+          <h1 className="anim-fade-up anim-d2 text-2xl font-bold leading-snug text-ink-900 md:text-4xl">
             어디로 갈지 몰라도 괜찮습니다.
             <br />
             당신에게 맞는 여행부터 함께 설계할게요.
           </h1>
 
           <form
-            className="mt-8"
+            className="anim-fade-up anim-d3 mt-8"
             onSubmit={(e) => {
               e.preventDefault();
               submit(input);
@@ -71,7 +88,7 @@ export function HomePage() {
                 autoFocus
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="예: 8월에 부모님과 일본 온천 5박 6일, 예산 300만 원"
+                placeholder={ROTATING_PLACEHOLDERS[placeholderIndex]}
                 aria-label="여행 요청 입력"
                 className="flex-1 bg-transparent px-3 py-2.5 text-sm outline-none placeholder:text-ink-400"
               />
@@ -85,7 +102,7 @@ export function HomePage() {
             </div>
           </form>
 
-          <div className="mt-5 flex flex-wrap justify-center gap-2">
+          <div className="anim-fade-up anim-d4 mt-5 flex flex-wrap justify-center gap-2">
             {EXAMPLE_PROMPTS.map((p) => (
               <button
                 key={p}
@@ -108,7 +125,7 @@ export function HomePage() {
         </div>
 
         {/* 신뢰 포인트 */}
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+        <div className="anim-fade-up anim-d5 mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
           {TRUST_POINTS.map(({ icon: Icon, text }) => (
             <span key={text} className="flex items-center gap-1.5 text-[11px] font-medium text-ink-500">
               <Icon size={13} className="text-brand-600" /> {text}
@@ -117,7 +134,7 @@ export function HomePage() {
         </div>
 
         {/* 이렇게 진행돼요 */}
-        <section className="mt-12" aria-label="이용 방법">
+        <section className="anim-fade-up anim-d6 mt-12" aria-label="이용 방법">
           <h2 className="text-center text-sm font-bold text-ink-800">이렇게 진행돼요</h2>
           <div className="mt-4 grid gap-3 md:grid-cols-3">
             {HOW_IT_WORKS.map(({ icon: Icon, title, detail }, i) => (
@@ -136,7 +153,7 @@ export function HomePage() {
         </section>
 
         {/* 여행 영감 */}
-        <section className="mt-12" aria-label="추천 여행지">
+        <section className="anim-fade-up anim-d6 mt-12" aria-label="추천 여행지">
           <h2 className="text-center text-sm font-bold text-ink-800">지금 인기 있는 여행지</h2>
           <p className="mt-1 text-center text-xs text-ink-500">눌러서 바로 이 여행지로 대화를 시작해보세요</p>
           <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-5">

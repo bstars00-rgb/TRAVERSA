@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { differenceInCalendarDays, parseISO } from 'date-fns';
 import { CalendarDays, Map } from 'lucide-react';
@@ -5,9 +6,10 @@ import { useItineraryStore } from '../../stores/useItineraryStore';
 import { useSearchStore } from '../../stores/useSearchStore';
 import { useBookingStore } from '../../stores/useBookingStore';
 import { useTripStore } from '../../stores/useTripStore';
-import { Button, EmptyState, LoadingSkeleton } from '../shared';
+import { Button, EmptyState, LoadingSkeleton, SegmentedControl } from '../shared';
 import { TripIntentCard } from '../ai/TripIntentCard';
 import { RecommendationCard } from '../search/RecommendationCard';
+import { RecommendationCompareTable } from '../search/RecommendationCompareTable';
 import { ItineraryItemCard } from './ItineraryItemCard';
 import { DiffPanel } from './DiffPanel';
 import { formatDate } from '../../utils/format';
@@ -21,6 +23,7 @@ function dDayLabel(startIso: string): string {
 }
 
 export function JourneyCanvas() {
+  const [compareView, setCompareView] = useState<'cards' | 'table'>('cards');
   const itinerary = useItineraryStore((s) => s.itinerary);
   const outcome = useSearchStore((s) => s.outcome);
   const isSearching = useSearchStore((s) => s.isSearching);
@@ -60,12 +63,27 @@ export function JourneyCanvas() {
         {/* 검색 결과 비교 (일정 생성 전) */}
         {!itinerary && !isSearching && outcome && (
           <section aria-label="추천 후보 비교" className="space-y-3">
-            <h3 className="text-sm font-bold text-ink-800">AI 추천 후보 {outcome.recommendations.length}개</h3>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h3 className="text-sm font-bold text-ink-800">AI 추천 후보 {outcome.recommendations.length}개</h3>
+              {outcome.recommendations.length > 1 && (
+                <SegmentedControl
+                  ariaLabel="추천 보기 방식"
+                  value={compareView}
+                  onChange={setCompareView}
+                  options={[
+                    { value: 'cards', label: '카드 보기' },
+                    { value: 'table', label: '비교표 보기' },
+                  ]}
+                />
+              )}
+            </div>
             {outcome.recommendations.length === 0 ? (
               <EmptyState
                 title="추천할 호텔을 찾지 못했습니다"
-                description="공급사 응답이 실패했을 수 있습니다. 대화에서 다시 검색을 요청해보세요."
+                description="판매처 응답이 실패했을 수 있어요. 대화에서 다시 검색을 요청해보세요."
               />
+            ) : compareView === 'table' && outcome.recommendations.length > 1 ? (
+              <RecommendationCompareTable recs={outcome.recommendations} />
             ) : (
               outcome.recommendations.map((rec) => (
                 <RecommendationCard key={rec.scored.offer.supplierOfferId} rec={rec} />

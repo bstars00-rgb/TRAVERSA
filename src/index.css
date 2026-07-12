@@ -63,9 +63,42 @@ body {
 .tone-boutique-river { background: linear-gradient(135deg, #34455c, #7d9cbc); }
 .tone-destination { background: linear-gradient(135deg, var(--color-brand-800), var(--color-brand-500)); }
 
+/* 일정 항목 타입별 톤 */
+.tone-item-flight { background: linear-gradient(135deg, #2b4a6f, #7aa5cc); }
+.tone-item-transport { background: linear-gradient(135deg, #46505c, #94a3b3); }
+.tone-item-activity { background: linear-gradient(135deg, #1f6560, #63b8b2); }
+.tone-item-meal { background: linear-gradient(135deg, #7a4a2b, #cc9a6a); }
+.tone-item-rest { background: linear-gradient(135deg, #3b5f6e, #8fc3d4); }
+.tone-item-sightseeing { background: linear-gradient(135deg, #2e5d3c, #86bd94); }
+.tone-item-shopping { background: linear-gradient(135deg, #8a6428, #d4b06a); }
+.tone-item-hotel { background: linear-gradient(135deg, #2d4a43, #8a6f4d); }
+
 @keyframes shimmer {
   0% { background-position: -400px 0; }
   100% { background-position: 400px 0; }
+}
+
+/* 온보딩 등장 애니메이션 — 스태거 딜레이와 함께 사용 */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.anim-fade-up {
+  opacity: 0;
+  animation: fade-up 0.55s ease-out forwards;
+}
+.anim-d1 { animation-delay: 0.05s; }
+.anim-d2 { animation-delay: 0.15s; }
+.anim-d3 { animation-delay: 0.25s; }
+.anim-d4 { animation-delay: 0.4s; }
+.anim-d5 { animation-delay: 0.55s; }
+.anim-d6 { animation-delay: 0.7s; }
+
+/* 움직임 최소화 설정 사용자는 애니메이션 없이 즉시 표시 */
+@media (prefers-reduced-motion: reduce) {
+  .anim-fade-up { animation: none; opacity: 1; }
+  .skeleton-shimmer { animation: none; }
 }
 
 .skeleton-shimmer {
