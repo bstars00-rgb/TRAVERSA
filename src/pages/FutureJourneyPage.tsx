@@ -74,16 +74,16 @@ export function FutureJourneyPage() {
     <div className="h-full overflow-y-auto">
       <div className="mx-auto max-w-4xl space-y-5 p-4 md:p-6">
         <div>
-          <h1 className="text-lg font-bold text-ink-900">미래 여행 경험 데모</h1>
+          <h1 className="text-2xl font-bold text-ink-900">미래 여행 경험 데모</h1>
           <p className="text-xs text-ink-500">10년 후를 향한 기능들 — 모두 사용자 승인을 전제로 동작합니다.</p>
         </div>
 
         {/* 2. Autonomous Trip Monitoring */}
         <section className="rounded-xl border border-ink-100 bg-white p-4">
-          <h2 className="flex items-center gap-1.5 text-sm font-bold text-ink-800">
+          <h2 className="flex items-center gap-1.5 text-base font-bold text-ink-800">
             <BellRing size={15} className="text-brand-700" /> 자율 여행 모니터링
           </h2>
-          <p className="mt-0.5 text-[11px] text-ink-500">
+          <p className="mt-0.5 text-xs text-ink-500">
             AI가 변화를 감지해도 자동으로 변경하지 않습니다. 영향과 함께 제안하고 승인을 기다립니다.
           </p>
           <ul className="mt-3 space-y-2">
@@ -95,8 +95,8 @@ export function FutureJourneyPage() {
                     {a.status === 'pending_user' ? '승인 대기' : a.status === 'approved' ? '승인됨' : '거절됨'}
                   </Badge>
                 </div>
-                <p className="mt-1 text-[11px] text-ink-600">{a.description}</p>
-                <p className="mt-1 text-[11px] text-ink-700"><strong>제안:</strong> {a.proposedAction} <span className="text-ink-400">({a.impact})</span></p>
+                <p className="mt-1 text-xs text-ink-600">{a.description}</p>
+                <p className="mt-1 text-xs text-ink-700"><strong>제안:</strong> {a.proposedAction} <span className="text-ink-400">({a.impact})</span></p>
                 {a.status === 'pending_user' && (
                   <div className="mt-2 flex gap-2">
                     <Button size="sm" onClick={() => resolveAlert(a.id, 'approved')}>제안 승인</Button>
@@ -110,19 +110,19 @@ export function FutureJourneyPage() {
 
         {/* 3. Personal Travel Digital Twin */}
         <section className="rounded-xl border border-ink-100 bg-white p-4">
-          <h2 className="text-sm font-bold text-ink-800">Personal Travel Digital Twin</h2>
-          <p className="mt-0.5 text-[11px] text-ink-500">
+          <h2 className="text-base font-bold text-ink-800">Personal Travel Digital Twin</h2>
+          <p className="mt-0.5 text-xs text-ink-500">
             평소 여행 성향과 현재 계획 중인 여행의 일치도: <strong className="text-brand-700">{matchScore}%</strong>
           </p>
           <div className="h-72 w-full" aria-label="여행 성향 레이더 차트">
             <ResponsiveContainer>
               <RadarChart data={radarData} outerRadius="70%">
                 <PolarGrid stroke="var(--color-ink-200)" />
-                <PolarAngleAxis dataKey="axis" tick={{ fontSize: 10, fill: 'var(--color-ink-500)' }} />
+                <PolarAngleAxis dataKey="axis" tick={{ fontSize: 12, fill: 'var(--color-ink-500)' }} />
                 <PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} />
                 <Radar name="평소 성향" dataKey="평소성향" stroke="var(--color-brand-600)" fill="var(--color-brand-500)" fillOpacity={0.25} />
                 <Radar name="현재 여행" dataKey="현재여행" stroke="var(--color-gold-500)" fill="var(--color-gold-500)" fillOpacity={0.2} />
-                <Legend wrapperStyle={{ fontSize: 11 }} />
+                <Legend wrapperStyle={{ fontSize: 13 }} />
               </RadarChart>
             </ResponsiveContainer>
           </div>
@@ -130,19 +130,19 @@ export function FutureJourneyPage() {
 
         {/* 4. Multi-agent Collaboration */}
         <section className="rounded-xl border border-ink-100 bg-white p-4">
-          <h2 className="text-sm font-bold text-ink-800">Multi-agent Collaboration</h2>
-          <p className="mt-0.5 text-[11px] text-ink-500">
+          <h2 className="text-base font-bold text-ink-800">Multi-agent Collaboration</h2>
+          <p className="mt-0.5 text-xs text-ink-500">
             전문 에이전트가 협업하고 Travel Orchestrator가 통합합니다. 예약 실행은 항상 사용자 승인이 필요합니다.
           </p>
           <div className="mt-3 grid grid-cols-2 gap-2 md:grid-cols-4">
             {agents.map((a) => (
               <div key={a.id} className="rounded-lg border border-ink-100 bg-ink-50 p-2.5">
-                <p className="text-[11px] font-semibold text-ink-700">{a.label}</p>
-                <p className="mt-0.5 truncate text-[10px] text-ink-400">{a.message}</p>
+                <p className="text-sm font-semibold text-ink-700">{a.label}</p>
+                <p className="mt-0.5 truncate text-xs text-ink-400">{a.message}</p>
               </div>
             ))}
           </div>
-          <p className="mt-2 flex items-center gap-1.5 text-[11px] text-ink-500">
+          <p className="mt-2 flex items-center gap-1.5 text-xs text-ink-500">
             <CheckCircle2 size={12} className="text-emerald-600" />
             최종 결정: Travel Orchestrator 통합 → <SourceTag source="user_confirmed" /> 사용자 승인 → 예약 실행
           </p>
@@ -150,15 +150,15 @@ export function FutureJourneyPage() {
 
         {/* 5. Post-booking Journey Agent */}
         <section className="rounded-xl border border-ink-100 bg-white p-4">
-          <h2 className="text-sm font-bold text-ink-800">Post-booking Journey Agent</h2>
-          <p className="mt-0.5 text-[11px] text-ink-500">예약 이후부터 귀국까지 이어지는 동반 에이전트 데모.</p>
+          <h2 className="text-base font-bold text-ink-800">Post-booking Journey Agent</h2>
+          <p className="mt-0.5 text-xs text-ink-500">예약 이후부터 귀국까지 이어지는 동반 에이전트 데모.</p>
           <div className="mt-3 flex flex-wrap gap-1.5">
             {POST_BOOKING_STAGES.map((s, i) => (
               <button
                 key={s.title}
                 onClick={() => setActiveStage(i)}
                 aria-pressed={activeStage === i}
-                className={`rounded-full px-3 py-1.5 text-[11px] font-medium transition-colors cursor-pointer ${
+                className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer ${
                   activeStage === i ? 'bg-brand-700 text-white' : 'bg-ink-100 text-ink-600 hover:bg-ink-200'
                 }`}
               >
@@ -172,7 +172,7 @@ export function FutureJourneyPage() {
               return <Icon size={20} className="mt-0.5 shrink-0 text-brand-700" />;
             })()}
             <div>
-              <h3 className="text-sm font-semibold text-ink-800">{POST_BOOKING_STAGES[activeStage].title}</h3>
+              <h3 className="text-base font-semibold text-ink-800">{POST_BOOKING_STAGES[activeStage].title}</h3>
               <p className="mt-1 text-xs text-ink-600">{POST_BOOKING_STAGES[activeStage].detail}</p>
             </div>
           </div>

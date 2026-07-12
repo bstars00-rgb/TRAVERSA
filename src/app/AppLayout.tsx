@@ -37,9 +37,9 @@ export function AppLayout() {
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-800 text-white">
               <BookOpenCheck size={16} />
             </span>
-            <span className="flex flex-col leading-none">
-              <span className="text-sm font-bold tracking-wide text-ink-900">TRAVERSA AI</span>
-              <span className="text-[10px] text-ink-400">Conversational Travel Prototype</span>
+            <span className="flex flex-col gap-0.5 leading-none">
+              <span className="text-base font-bold tracking-wide text-ink-900">TRAVERSA AI</span>
+              <span className="text-[11px] text-ink-400">Conversational Travel Prototype</span>
             </span>
           </NavLink>
           <nav aria-label="주 메뉴" className="ml-auto flex items-center gap-0.5 overflow-x-auto">
@@ -48,7 +48,7 @@ export function AppLayout() {
                 key={to}
                 to={to}
                 className={({ isActive }) =>
-                  `flex shrink-0 items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors ${
+                  `flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                     isActive ? 'bg-brand-100 text-brand-800' : 'text-ink-500 hover:bg-ink-100 hover:text-ink-700'
                   }`
                 }

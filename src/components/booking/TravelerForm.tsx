@@ -14,7 +14,7 @@ export function TravelerForm({ traveler, index }: { traveler: Traveler; index: n
   return (
     <div className="rounded-xl border border-ink-100 bg-white p-4">
       <div className="mb-2 flex items-center gap-2">
-        <h4 className="text-xs font-semibold text-ink-700">여행자 {index + 1}</h4>
+        <h4 className="text-sm font-semibold text-ink-700">여행자 {index + 1}</h4>
         <Badge tone="neutral">{TYPE_LABEL[traveler.type]}</Badge>
         {traveler.confirmedByUser ? (
           <Badge tone="success">사용자 확정</Badge>
@@ -23,7 +23,7 @@ export function TravelerForm({ traveler, index }: { traveler: Traveler; index: n
         )}
       </div>
       <div className="grid grid-cols-2 gap-2">
-        <label className="text-[11px] text-ink-500">
+        <label className="text-xs text-ink-500">
           영문 이름 (Given name)
           <input
             value={traveler.englishGivenName ?? ''}
@@ -32,7 +32,7 @@ export function TravelerForm({ traveler, index }: { traveler: Traveler; index: n
             className="mt-1 w-full rounded-md border border-ink-200 px-2.5 py-1.5 text-xs uppercase outline-none focus:border-brand-500"
           />
         </label>
-        <label className="text-[11px] text-ink-500">
+        <label className="text-xs text-ink-500">
           영문 성 (Family name)
           <input
             value={traveler.englishFamilyName ?? ''}
@@ -42,7 +42,7 @@ export function TravelerForm({ traveler, index }: { traveler: Traveler; index: n
           />
         </label>
       </div>
-      <label className="mt-2 flex items-start gap-2 text-[11px] text-ink-600">
+      <label className="mt-2 flex items-start gap-2 text-xs text-ink-600">
         <input
           type="checkbox"
           checked={traveler.confirmedByUser}

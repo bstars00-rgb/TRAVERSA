@@ -17,9 +17,9 @@ const VARIANT_CLASS: Record<ButtonVariant, string> = {
 };
 
 const SIZE_CLASS: Record<ButtonSize, string> = {
-  sm: 'text-xs px-2.5 py-1.5 rounded-md',
-  md: 'text-sm px-4 py-2 rounded-lg',
-  lg: 'text-base px-5 py-3 rounded-lg',
+  sm: 'text-sm px-3 py-2 rounded-lg',
+  md: 'text-base px-5 py-2.5 rounded-xl',
+  lg: 'text-lg px-6 py-3.5 rounded-xl',
 };
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -46,7 +46,7 @@ export function IconButton({
     <button
       aria-label={label}
       title={label}
-      className={`inline-flex h-9 w-9 items-center justify-center rounded-lg text-ink-500 hover:bg-ink-100 hover:text-ink-700 transition-colors cursor-pointer disabled:cursor-not-allowed disabled:text-ink-300 ${className}`}
+      className={`inline-flex h-10 w-10 items-center justify-center rounded-lg text-ink-500 hover:bg-ink-100 hover:text-ink-700 transition-colors cursor-pointer disabled:cursor-not-allowed disabled:text-ink-300 ${className}`}
       {...rest}
     >
       {children}
@@ -69,7 +69,7 @@ const BADGE_TONE: Record<BadgeTone, string> = {
 
 export function Badge({ tone = 'neutral', children, className = '' }: { tone?: BadgeTone; children: ReactNode; className?: string }) {
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ${BADGE_TONE[tone]} ${className}`}>
+    <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium ${BADGE_TONE[tone]} ${className}`}>
       {children}
     </span>
   );
@@ -126,7 +126,7 @@ export function PriceDisplay({
         {formatMoney(amount)}
       </span>
       <Badge tone={meta.tone}>{meta.label}</Badge>
-      {capturedAt && <span className="text-[11px] text-ink-400">{formatTimeAgo(capturedAt)} 확인</span>}
+      {capturedAt && <span className="text-xs text-ink-400">{formatTimeAgo(capturedAt)} 확인</span>}
     </span>
   );
 }
@@ -145,7 +145,7 @@ const SUPPLIER_STATUS_META: Record<SupplierStatus, { label: string; dot: string 
 export function SupplierBadge({ name, status }: { name: string; status?: SupplierStatus }) {
   const meta = status ? SUPPLIER_STATUS_META[status] : null;
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-md border border-ink-200 bg-white px-2 py-0.5 text-[11px] font-medium text-ink-600">
+    <span className="inline-flex items-center gap-1.5 rounded-md border border-ink-200 bg-white px-2 py-0.5 text-xs font-medium text-ink-600">
       {meta && <span className={`h-1.5 w-1.5 rounded-full ${meta.dot}`} aria-hidden />}
       {name}
       {meta && <span className="text-ink-400">{meta.label}</span>}
@@ -170,7 +170,7 @@ export function ConfidenceIndicator({ value, label }: { value: number; label?: s
       <span className="h-1.5 w-16 overflow-hidden rounded-full bg-ink-100">
         <span className={`block h-full rounded-full ${tone}`} style={{ width: `${pct}%` }} />
       </span>
-      <span className="text-[11px] tabular-nums text-ink-500">{pct}%</span>
+      <span className="text-xs tabular-nums text-ink-500">{pct}%</span>
     </span>
   );
 }
@@ -205,7 +205,7 @@ export function SourceTag({ source }: { source: DataSourceType }) {
   return (
     <span
       title={meta.title}
-      className={`inline-flex items-center rounded border px-1.5 py-0.5 text-[10px] font-semibold tracking-wide ${meta.className}`}
+      className={`inline-flex items-center rounded border px-1.5 py-0.5 text-xs font-semibold tracking-wide ${meta.className}`}
     >
       {meta.label}
     </span>

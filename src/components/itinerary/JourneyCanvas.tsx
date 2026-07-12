@@ -35,7 +35,7 @@ export function JourneyCanvas() {
   return (
     <div className="flex h-full flex-col">
       <div className="flex items-center justify-between border-b border-ink-100 px-4 py-2.5">
-        <h2 className="text-xs font-semibold text-ink-700">여행 계획</h2>
+        <h2 className="text-sm font-semibold text-ink-700">여행 계획</h2>
         {itinerary && (
           <Button
             size="sm"
@@ -64,7 +64,7 @@ export function JourneyCanvas() {
         {!itinerary && !isSearching && outcome && (
           <section aria-label="추천 후보 비교" className="space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="text-sm font-bold text-ink-800">AI 추천 후보 {outcome.recommendations.length}개</h3>
+              <h3 className="text-base font-bold text-ink-800">AI 추천 후보 {outcome.recommendations.length}개</h3>
               {outcome.recommendations.length > 1 && (
                 <SegmentedControl
                   ariaLabel="추천 보기 방식"
@@ -109,23 +109,23 @@ export function JourneyCanvas() {
             <div className="tone-destination overflow-hidden rounded-2xl p-4 text-white">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <p className="text-[11px] font-medium text-white/70">나의 여행</p>
+                  <p className="text-xs font-medium text-white/70">나의 여행</p>
                   <h3 className="text-lg font-bold drop-shadow">
                     {itinerary.destinationName} {itinerary.days.length - 1}박 {itinerary.days.length}일
                   </h3>
-                  <p className="mt-0.5 text-[11px] text-white/80">
+                  <p className="mt-0.5 text-xs text-white/80">
                     {formatDate(itinerary.days[0].date)} 출발 · {intent.travelers ?? '?'}명
                     {intent.pace === 'relaxed' && ' · 여유로운 일정'}
                   </p>
                 </div>
                 <div className="rounded-xl bg-white/15 px-3 py-2 text-center backdrop-blur-sm">
-                  <p className="text-[10px] text-white/70">출발까지</p>
+                  <p className="text-xs text-white/70">출발까지</p>
                   <p className="text-lg font-bold tabular-nums">
                     {dDayLabel(itinerary.days[0].date)}
                   </p>
                 </div>
               </div>
-              <p className="mt-3 text-[10px] text-white/60">
+              <p className="mt-3 text-xs text-white/60">
                 일정 v{itinerary.version} · "둘째 날 좀 더 여유롭게" 처럼 대화로 언제든 수정할 수 있어요
               </p>
             </div>
@@ -140,11 +140,11 @@ export function JourneyCanvas() {
                   <circle cx="85" cy="30" r="3" fill="var(--color-gold-500)" />
                   <path d="M45 38 Q65 25 85 30" stroke="var(--color-brand-700)" strokeWidth="1.5" strokeDasharray="3 2" fill="none" />
                 </svg>
-                <span className="absolute bottom-1 right-1.5 flex items-center gap-0.5 text-[9px] text-brand-800"><Map size={9} /> 미리보기</span>
+                <span className="absolute bottom-1 right-1.5 flex items-center gap-0.5 text-xs text-brand-800"><Map size={9} /> 미리보기</span>
               </div>
               <div>
-                <h3 className="text-sm font-bold text-ink-900">동선 미리보기</h3>
-                <p className="text-[11px] text-ink-500">공항 → 숙소 → 주요 일정 동선이 무리 없는지 함께 확인해드려요.</p>
+                <h3 className="text-base font-bold text-ink-900">동선 미리보기</h3>
+                <p className="text-xs text-ink-500">공항 → 숙소 → 주요 일정 동선이 무리 없는지 함께 확인해드려요.</p>
               </div>
             </div>
 
@@ -152,7 +152,7 @@ export function JourneyCanvas() {
               <div key={day.dayNumber}>
                 <div className="mb-2 flex items-baseline gap-2">
                   <h4 className="text-sm font-bold text-brand-800">Day {day.dayNumber}</h4>
-                  <span className="text-[11px] text-ink-500">{formatDate(day.date)} · {day.title}</span>
+                  <span className="text-xs text-ink-500">{formatDate(day.date)} · {day.title}</span>
                 </div>
                 <div className="space-y-2 border-l-2 border-brand-100 pl-3">
                   {day.items.map((item) => (

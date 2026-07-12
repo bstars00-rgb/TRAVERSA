@@ -31,8 +31,8 @@ export function EmptyState({
   return (
     <div className="flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-ink-200 bg-white/60 px-6 py-10 text-center">
       <span className="text-ink-300">{icon ?? <Inbox size={32} />}</span>
-      <p className="text-sm font-semibold text-ink-700">{title}</p>
-      {description && <p className="max-w-sm text-xs text-ink-500">{description}</p>}
+      <p className="text-base font-semibold text-ink-700">{title}</p>
+      {description && <p className="max-w-sm text-sm text-ink-500">{description}</p>}
       {action}
     </div>
   );
@@ -101,7 +101,7 @@ export function Drawer({
       <div className="absolute inset-0 bg-ink-900/40" onClick={onClose} aria-hidden />
       <div className="absolute inset-y-0 right-0 flex w-full max-w-md flex-col bg-white shadow-xl">
         <div className="flex items-center justify-between border-b border-ink-100 px-5 py-4">
-          <h2 className="text-sm font-semibold text-ink-800">{title}</h2>
+          <h2 className="text-base font-semibold text-ink-800">{title}</h2>
           <IconButton label="닫기" onClick={onClose}>
             <X size={16} />
           </IconButton>
@@ -172,7 +172,7 @@ export function ToastHost() {
       {toasts.map((t) => (
         <div key={t.id} className="pointer-events-auto flex items-center gap-2 rounded-lg border border-ink-100 bg-white px-3 py-2.5 shadow-lg">
           {TOAST_ICON[t.kind]}
-          <p className="flex-1 text-xs text-ink-700">{t.message}</p>
+          <p className="flex-1 text-sm text-ink-700">{t.message}</p>
           <IconButton label="알림 닫기" className="h-6 w-6" onClick={() => dismiss(t.id)}>
             <X size={12} />
           </IconButton>

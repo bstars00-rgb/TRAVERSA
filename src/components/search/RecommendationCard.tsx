@@ -31,7 +31,7 @@ export function RecommendationCard({ rec }: { rec: HotelRecommendation }) {
     <article className="overflow-hidden rounded-2xl border border-ink-100 bg-white shadow-sm">
       {/* 비주얼 헤더 — 외부 이미지 없이 호텔 톤으로 분위기 전달 */}
       <div className={`tone-${hotel.imageTone} relative flex h-24 items-end p-3`}>
-        <div className="absolute right-3 top-3 flex items-center gap-1 rounded-lg bg-white/90 px-2 py-1 text-[11px] font-bold text-ink-800">
+        <div className="absolute right-3 top-3 flex items-center gap-1 rounded-lg bg-white/90 px-2 py-1 text-xs font-bold text-ink-800">
           ⭐ {hotel.reviewScore}
           <span className="font-normal text-ink-400">/ 10</span>
         </div>
@@ -45,15 +45,15 @@ export function RecommendationCard({ rec }: { rec: HotelRecommendation }) {
 
       <div className="p-4 pt-3">
       <div className="flex flex-wrap items-start justify-between gap-2">
-        <p className="flex items-center gap-1 text-[11px] text-ink-500">
+        <p className="flex items-center gap-1 text-xs text-ink-500">
           <MapPin size={11} /> {hotel.location}
         </p>
         <div className="text-right">
-          <p className="text-[11px] text-ink-500">
+          <p className="text-xs text-ink-500">
             1박 약 <strong className="text-ink-700">{formatMoney({ amount: nightly, currency: offer.totalPrice.currency })}</strong>
           </p>
           <PriceDisplay amount={offer.totalPrice} status="retrieved" size="lg" />
-          <p className="mt-0.5 text-[10px] text-ink-400">
+          <p className="mt-0.5 text-xs text-ink-400">
             {offer.nights}박 총액 · 세금 {formatMoney(offer.taxes)} · 수수료 {formatMoney(offer.fees)} 포함
           </p>
         </div>
@@ -66,7 +66,7 @@ export function RecommendationCard({ rec }: { rec: HotelRecommendation }) {
       </div>
 
       {/* 객실/적합성 팩트 — 공급사 데이터 */}
-      <div className="mt-3 grid grid-cols-2 gap-x-3 gap-y-1.5 text-[11px] text-ink-600 md:grid-cols-3">
+      <div className="mt-3 grid grid-cols-2 gap-x-3 gap-y-1.5 text-xs text-ink-600 md:grid-cols-3">
         <span className="flex items-center gap-1"><BedDouble size={11} /> {offer.room.bedConfiguration}</span>
         <span className="flex items-center gap-1"><Ruler size={11} /> {offer.room.sizeSqm}㎡ · {offer.room.name}</span>
         <span className="flex items-center gap-1"><TrainFront size={11} /> 역까지 {hotel.distanceToStationM}m</span>
@@ -87,7 +87,7 @@ export function RecommendationCard({ rec }: { rec: HotelRecommendation }) {
       {riskNotes.length > 0 && (
         <div className="mt-2.5 rounded-lg border border-amber-200 bg-amber-50 p-2.5" role="alert">
           {riskNotes.map((r) => (
-            <p key={r} className="flex items-center gap-1.5 text-[11px] text-amber-800">
+            <p key={r} className="flex items-center gap-1.5 text-xs text-amber-800">
               <AlertTriangle size={11} /> {r}
             </p>
           ))}
@@ -98,7 +98,7 @@ export function RecommendationCard({ rec }: { rec: HotelRecommendation }) {
       <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-ink-100 pt-2.5">
         <SourceTag source="live_supplier_data" />
         <SupplierBadge name={offer.supplierName} />
-        <span className="text-[10px] text-ink-400">
+        <span className="text-xs text-ink-400">
           {formatTimeAgo(offer.retrievedAt)} 확인 · {formatDateTime(offer.expiresAt)} 만료
         </span>
       </div>
@@ -106,10 +106,10 @@ export function RecommendationCard({ rec }: { rec: HotelRecommendation }) {
       {/* 동일 호텔·동일 객실 공급사 가격 비교 */}
       {rec.alternativeSupplierOffers.length > 0 && (
         <div className="mt-2.5 rounded-lg border border-ink-100 p-2.5">
-          <p className="mb-1.5 text-[11px] font-semibold text-ink-500">같은 객실, 다른 공급사</p>
+          <p className="mb-1.5 text-xs font-semibold text-ink-500">같은 객실, 다른 공급사</p>
           <ul className="space-y-1">
             {rec.alternativeSupplierOffers.map((alt) => (
-              <li key={alt.offer.supplierOfferId} className="flex items-center justify-between gap-2 text-[11px]">
+              <li key={alt.offer.supplierOfferId} className="flex items-center justify-between gap-2 text-xs">
                 <span className="flex items-center gap-1.5">
                   <SupplierBadge name={alt.offer.supplierName} />
                   <span className="text-ink-400">
@@ -120,7 +120,7 @@ export function RecommendationCard({ rec }: { rec: HotelRecommendation }) {
               </li>
             ))}
           </ul>
-          <p className="mt-1.5 text-[10px] text-ink-400">최저가가 아니라 취소조건·신뢰도·응답품질을 종합해 추천합니다.</p>
+          <p className="mt-1.5 text-xs text-ink-400">최저가가 아니라 취소조건·신뢰도·응답품질을 종합해 추천합니다.</p>
         </div>
       )}
 
@@ -128,14 +128,14 @@ export function RecommendationCard({ rec }: { rec: HotelRecommendation }) {
       <button
         onClick={() => setShowReasons(!showReasons)}
         aria-expanded={showReasons}
-        className="mt-2.5 flex items-center gap-1 text-[11px] font-medium text-brand-700 hover:underline cursor-pointer"
+        className="mt-2.5 flex items-center gap-1 text-xs font-medium text-brand-700 hover:underline cursor-pointer"
       >
         왜 이 상품인가요? (추천 점수 {score}점) {showReasons ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
       </button>
       {showReasons && (
         <ul className="mt-1.5 space-y-0.5 rounded-lg bg-ink-50 p-2.5">
           {reasons.map((r) => (
-            <li key={r.label} className="flex justify-between text-[11px]">
+            <li key={r.label} className="flex justify-between text-xs">
               <span className="text-ink-600">{r.label}</span>
               <span className={`tabular-nums font-medium ${r.points < 0 ? 'text-red-600' : 'text-ink-700'}`}>
                 {r.points > 0 ? '+' : ''}{r.points}점
@@ -146,7 +146,7 @@ export function RecommendationCard({ rec }: { rec: HotelRecommendation }) {
       )}
 
       <div className="mt-3 flex items-center justify-between gap-2">
-        <p className="text-[10px] text-ink-400">지금은 일정에 담기만 해요. 결제는 마지막에 내가 승인해요.</p>
+        <p className="text-xs text-ink-400">지금은 일정에 담기만 해요. 결제는 마지막에 내가 승인해요.</p>
         <Button onClick={() => selectRecommendation(rec)}>이 호텔로 일정 만들기</Button>
       </div>
       </div>

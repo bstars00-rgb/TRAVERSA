@@ -34,13 +34,13 @@ export function TripIntelligencePanel() {
   return (
     <div className="flex h-full flex-col">
       <div className="border-b border-ink-100 px-4 py-2.5">
-        <h2 className="text-xs font-semibold text-ink-700">한눈에 보기</h2>
+        <h2 className="text-sm font-semibold text-ink-700">한눈에 보기</h2>
       </div>
 
       <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-3">
         {/* 예산 */}
         <section className="rounded-xl border border-ink-100 bg-white p-3.5" aria-label="예산">
-          <h3 className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-ink-700">
+          <h3 className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-ink-700">
             <Wallet size={13} /> 예산
           </h3>
           {budget ? (
@@ -72,7 +72,7 @@ export function TripIntelligencePanel() {
 
         {/* 일정 충돌 */}
         <section className="rounded-xl border border-ink-100 bg-white p-3.5" aria-label="일정 충돌">
-          <h3 className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-ink-700">
+          <h3 className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-ink-700">
             <AlertTriangle size={13} /> 일정 검증 {issues.length > 0 && <Badge tone="warning">{issues.length}</Badge>}
           </h3>
           {issues.length === 0 ? (
@@ -80,7 +80,7 @@ export function TripIntelligencePanel() {
           ) : (
             <ul className="space-y-1.5">
               {issues.map((issue) => (
-                <li key={issue.id} className={`rounded-md px-2 py-1.5 text-[11px] ${issue.severity === 'critical' ? 'bg-red-50 text-red-800' : 'bg-amber-50 text-amber-800'}`}>
+                <li key={issue.id} className={`rounded-md px-2 py-1.5 text-xs ${issue.severity === 'critical' ? 'bg-red-50 text-red-800' : 'bg-amber-50 text-amber-800'}`}>
                   {issue.message}
                 </li>
               ))}
@@ -107,7 +107,7 @@ export function TripIntelligencePanel() {
 
         {/* 여행 리스크 */}
         <section className="rounded-xl border border-ink-100 bg-white p-3.5" aria-label="여행 리스크">
-          <h3 className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-ink-700">
+          <h3 className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-ink-700">
             <ShieldAlert size={13} /> 여행 리스크 {risks.length > 0 && <Badge tone="warning">{risks.length}</Badge>}
           </h3>
           {risks.length === 0 ? (
@@ -115,7 +115,7 @@ export function TripIntelligencePanel() {
           ) : (
             <ul className="space-y-1.5">
               {risks.slice(0, 6).map((r) => (
-                <li key={r.id} className="rounded-md bg-ink-50 px-2 py-1.5 text-[11px] text-ink-600">{r.message}</li>
+                <li key={r.id} className="rounded-md bg-ink-50 px-2 py-1.5 text-xs text-ink-600">{r.message}</li>
               ))}
             </ul>
           )}
@@ -123,7 +123,7 @@ export function TripIntelligencePanel() {
 
         {/* 공급사 연결 상태 */}
         <section className="rounded-xl border border-ink-100 bg-white p-3.5" aria-label="공급사 연결 상태">
-          <h3 className="mb-2 text-xs font-semibold text-ink-700">공급사 연결</h3>
+          <h3 className="mb-2 text-sm font-semibold text-ink-700">공급사 연결</h3>
           <div className="flex flex-wrap gap-1.5">
             {SUPPLIERS.map((s) => {
               const h = health.find((x) => x.supplierId === s.id);
@@ -134,7 +134,7 @@ export function TripIntelligencePanel() {
 
         {/* 예약 준비도 */}
         <section className="rounded-xl border border-ink-100 bg-white p-3.5" aria-label="예약 준비도">
-          <h3 className="mb-2 text-xs font-semibold text-ink-700">예약 준비도</h3>
+          <h3 className="mb-2 text-sm font-semibold text-ink-700">예약 준비도</h3>
           <div className="flex items-center gap-2">
             <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-ink-100">
               <div
@@ -142,9 +142,9 @@ export function TripIntelligencePanel() {
                 style={{ width: `${readiness.total === 0 ? 0 : (readiness.confirmed / readiness.total) * 100}%` }}
               />
             </div>
-            <span className="text-[11px] tabular-nums text-ink-500">{readiness.confirmed}/{readiness.total} 확인</span>
+            <span className="text-xs tabular-nums text-ink-500">{readiness.confirmed}/{readiness.total} 확인</span>
           </div>
-          <p className="mt-1.5 text-[10px] text-ink-400">
+          <p className="mt-1.5 text-xs text-ink-400">
             {readiness.ready ? '결제 준비 단계로 이동할 수 있습니다.' : '예약 준비 화면에서 사용자 확인 항목을 완료하세요.'}
           </p>
         </section>

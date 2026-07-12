@@ -44,7 +44,7 @@ export function TripIntentCard() {
       </div>
 
       <div className="space-y-1.5">
-        <p className="flex items-center gap-1 text-[11px] font-semibold text-emerald-700">
+        <p className="flex items-center gap-1 text-xs font-semibold text-emerald-700">
           <CheckCircle2 size={12} /> AI가 이해한 내용
         </p>
         {understood.length === 0 && <p className="text-xs text-ink-400">아직 파악된 조건이 없습니다.</p>}
@@ -60,7 +60,7 @@ export function TripIntentCard() {
 
       {intent.missingInformation.length > 0 && (
         <div className="mt-3 space-y-1.5 border-t border-ink-100 pt-3">
-          <p className="flex items-center gap-1 text-[11px] font-semibold text-amber-700">
+          <p className="flex items-center gap-1 text-xs font-semibold text-amber-700">
             <HelpCircle size={12} /> 아직 확인이 필요한 내용
           </p>
           <div className="flex flex-wrap gap-1">
@@ -72,7 +72,7 @@ export function TripIntentCard() {
       )}
 
       <div className="mt-3 grid grid-cols-2 gap-2 border-t border-ink-100 pt-3">
-        <label className="text-[11px] text-ink-500">
+        <label className="text-xs text-ink-500">
           총예산 (만 원)
           <input
             type="number"
@@ -84,7 +84,7 @@ export function TripIntentCard() {
             className="mt-1 w-full rounded-md border border-ink-200 px-2 py-1.5 text-xs text-ink-800 outline-none focus:border-brand-500"
           />
         </label>
-        <label className="text-[11px] text-ink-500">
+        <label className="text-xs text-ink-500">
           여행 페이스
           <select
             value={intent.pace ?? 'balanced'}
@@ -97,7 +97,7 @@ export function TripIntentCard() {
           </select>
         </label>
       </div>
-      <p className="mt-2 text-[10px] text-ink-400">신뢰도가 낮은 항목은 여기서 직접 수정할 수 있습니다.</p>
+      <p className="mt-2 text-xs text-ink-400">신뢰도가 낮은 항목은 여기서 직접 수정할 수 있습니다.</p>
     </section>
   );
 }

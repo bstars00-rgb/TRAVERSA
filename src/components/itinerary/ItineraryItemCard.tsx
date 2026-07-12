@@ -47,10 +47,10 @@ export function ItineraryItemCard({ item }: { item: ItineraryItem }) {
       <div className="min-w-0 flex-1 py-0.5">
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <span className="text-xs font-semibold tabular-nums text-brand-700">{item.startTime}</span>
-          <h5 className="text-[13px] font-semibold text-ink-800">{item.title}</h5>
+          <h5 className="text-base font-semibold text-ink-800">{item.title}</h5>
           {item.requiresBooking && <StatusBadge status={item.bookingStatus} />}
         </div>
-        <p className="mt-0.5 text-[11px] text-ink-500">
+        <p className="mt-0.5 text-xs text-ink-500">
           {item.location} · {formatDuration(item.durationMinutes)}
           {item.travelMinutesFromPrevious > 0 && ` · 이동 ${formatDuration(item.travelMinutesFromPrevious)}`}
         </p>
@@ -70,12 +70,12 @@ export function ItineraryItemCard({ item }: { item: ItineraryItem }) {
           )}
         </div>
         {item.cancellationPolicy && (
-          <p className="mt-1 text-[10px] text-ink-400">{item.cancellationPolicy.penaltyDescription}</p>
+          <p className="mt-1 text-xs text-ink-400">{item.cancellationPolicy.penaltyDescription}</p>
         )}
         {item.alternativeOf && (
-          <p className="mt-1 rounded bg-ink-50 px-2 py-1 text-[10px] text-ink-500">☔ 대체 일정: {item.alternativeOf}</p>
+          <p className="mt-1 rounded bg-ink-50 px-2 py-1 text-xs text-ink-500">☔ 대체 일정: {item.alternativeOf}</p>
         )}
-        {item.aiNote && <p className="mt-1 text-[10px] italic text-ink-400">{item.aiNote}</p>}
+        {item.aiNote && <p className="mt-1 text-xs italic text-ink-400">{item.aiNote}</p>}
       </div>
     </div>
   );

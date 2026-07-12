@@ -30,7 +30,7 @@ export function RecommendationCompareTable({ recs }: { recs: HotelRecommendation
         return (
           <span className={`font-bold tabular-nums ${isCheapest ? 'text-emerald-700' : 'text-ink-800'}`}>
             {formatMoney(r.scored.offer.totalPrice)}
-            {isCheapest && <span className="ml-1 text-[9px] font-medium">최저</span>}
+            {isCheapest && <span className="ml-1 text-xs font-medium">최저</span>}
           </span>
         );
       },
@@ -99,14 +99,14 @@ export function RecommendationCompareTable({ recs }: { recs: HotelRecommendation
         <caption className="sr-only">추천 호텔 비교표</caption>
         <thead>
           <tr>
-            <th className="w-28 px-3 py-3 align-bottom text-[10px] font-medium text-ink-400">항목</th>
+            <th className="w-28 px-3 py-3 align-bottom text-xs font-medium text-ink-400">항목</th>
             {recs.map((r) => (
               <th key={r.scored.offer.supplierOfferId} className="px-3 py-3">
                 <div className={`tone-${r.scored.offer.hotel.imageTone} mb-2 flex h-12 items-center justify-center rounded-lg text-xl`} aria-hidden>
                   🏨
                 </div>
                 <Badge tone={STRATEGY_TONE[r.strategy]}>{r.strategyLabel}</Badge>
-                <p className="mt-1 text-[12px] font-bold leading-snug text-ink-800">{r.scored.offer.hotel.name}</p>
+                <p className="mt-1 text-sm font-bold leading-snug text-ink-800">{r.scored.offer.hotel.name}</p>
               </th>
             ))}
           </tr>
@@ -114,7 +114,7 @@ export function RecommendationCompareTable({ recs }: { recs: HotelRecommendation
         <tbody>
           {rows.map((row) => (
             <tr key={row.label} className="border-t border-ink-50">
-              <th scope="row" className="px-3 py-2.5 text-[10px] font-medium text-ink-400">{row.label}</th>
+              <th scope="row" className="px-3 py-2.5 text-xs font-medium text-ink-400">{row.label}</th>
               {recs.map((r) => (
                 <td key={r.scored.offer.supplierOfferId} className="px-3 py-2.5 align-top">
                   {row.render(r)}

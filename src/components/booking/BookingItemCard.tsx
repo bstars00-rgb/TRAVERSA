@@ -23,13 +23,13 @@ export function BookingItemCard({ item }: { item: BookingItem }) {
     <article className="rounded-xl border border-ink-100 bg-white p-4">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-wide text-ink-400">{KIND_LABEL[item.offer.kind]}</p>
-          <h4 className="text-sm font-semibold text-ink-800">{offerTitle(item)}</h4>
+          <p className="text-xs font-semibold uppercase tracking-wide text-ink-400">{KIND_LABEL[item.offer.kind]}</p>
+          <h4 className="text-base font-semibold text-ink-800">{offerTitle(item)}</h4>
           <div className="mt-1 flex flex-wrap items-center gap-1.5">
             <StatusBadge status={item.status} />
             <SourceTag source="live_supplier_data" />
             <SupplierBadge name={item.bookedVia} />
-            <span className="text-[10px] text-ink-400">예약 주체: {item.bookedVia}</span>
+            <span className="text-xs text-ink-400">예약 주체: {item.bookedVia}</span>
           </div>
         </div>
         <div className="text-right">
@@ -39,12 +39,12 @@ export function BookingItemCard({ item }: { item: BookingItem }) {
             capturedAt={item.latestPrice.capturedAt}
           />
           {item.latestPrice.previousAmount && item.latestPrice.previousAmount.amount !== item.latestPrice.amount.amount && (
-            <p className="text-[10px] text-ink-400 line-through">{formatMoney(item.latestPrice.previousAmount)}</p>
+            <p className="text-xs text-ink-400 line-through">{formatMoney(item.latestPrice.previousAmount)}</p>
           )}
         </div>
       </div>
 
-      <dl className="mt-3 grid grid-cols-1 gap-1 text-[11px] text-ink-600 md:grid-cols-2">
+      <dl className="mt-3 grid grid-cols-1 gap-1 text-xs text-ink-600 md:grid-cols-2">
         <div className="flex gap-1.5">
           <dt className="text-ink-400">취소 마감</dt>
           <dd>{item.cancellationDeadline ? formatDateTime(item.cancellationDeadline) : '해당 없음 (환불 불가)'}</dd>
@@ -64,12 +64,12 @@ export function BookingItemCard({ item }: { item: BookingItem }) {
       {item.offer.warnings.length > 0 && (
         <ul className="mt-2 space-y-1" role="alert">
           {item.offer.warnings.map((w) => (
-            <li key={w} className="rounded bg-amber-50 px-2 py-1 text-[11px] text-amber-800">⚠ {w}</li>
+            <li key={w} className="rounded bg-amber-50 px-2 py-1 text-xs text-amber-800">⚠ {w}</li>
           ))}
         </ul>
       )}
 
-      <label className="mt-3 block text-[11px] text-ink-500">
+      <label className="mt-3 block text-xs text-ink-500">
         특별요청 (공급사 전달용)
         <input
           value={item.specialRequests ?? ''}

@@ -12,7 +12,7 @@ export function McpMonitorPage() {
     <div className="h-full overflow-y-auto">
       <div className="mx-auto max-w-3xl space-y-4 p-4 md:p-6">
         <div>
-          <h1 className="text-lg font-bold text-ink-900">Travel MCP Gateway 모니터</h1>
+          <h1 className="text-2xl font-bold text-ink-900">Travel MCP Gateway 모니터</h1>
           <p className="text-xs text-ink-500">
             AI Orchestrator → MCP Gateway → Supplier Registry → Adapters → Mock Data 구조의 상태 화면입니다.
           </p>
@@ -22,7 +22,7 @@ export function McpMonitorPage() {
           <table className="w-full min-w-[560px] text-left text-xs">
             <caption className="sr-only">공급사 상태 테이블</caption>
             <thead>
-              <tr className="border-b border-ink-100 text-[10px] uppercase tracking-wide text-ink-400">
+              <tr className="border-b border-ink-100 text-xs uppercase tracking-wide text-ink-400">
                 <th className="px-4 py-2.5">공급사</th>
                 <th className="px-4 py-2.5">프로토콜</th>
                 <th className="px-4 py-2.5">상태</th>
@@ -38,7 +38,7 @@ export function McpMonitorPage() {
                   <tr key={s.id} className="border-b border-ink-50 last:border-0">
                     <td className="px-4 py-2.5">
                       <p className="font-semibold text-ink-800">{s.name}</p>
-                      <p className="text-[10px] text-ink-400">{s.description}</p>
+                      <p className="text-xs text-ink-400">{s.description}</p>
                     </td>
                     <td className="px-4 py-2.5"><Badge tone="neutral">{s.apiProtocol}</Badge></td>
                     <td className="px-4 py-2.5"><SupplierBadge name="" status={h?.status ?? 'connected'} /></td>
@@ -59,13 +59,13 @@ export function McpMonitorPage() {
         </section>
 
         <section className="rounded-xl border border-ink-100 bg-white p-4">
-          <h2 className="mb-2 text-sm font-semibold text-ink-800">최근 MCP 도구 호출</h2>
+          <h2 className="mb-2 text-base font-semibold text-ink-800">최근 MCP 도구 호출</h2>
           {recentResults.length === 0 ? (
             <EmptyState title="아직 도구 호출이 없습니다" description="워크스페이스에서 검색을 실행하면 호출 기록이 여기 표시됩니다." />
           ) : (
             <ul className="max-h-96 space-y-1 overflow-y-auto">
               {recentResults.map((r) => (
-                <li key={r.callId} className="flex flex-wrap items-center gap-2 rounded-md bg-ink-50 px-2.5 py-1.5 text-[11px]">
+                <li key={r.callId} className="flex flex-wrap items-center gap-2 rounded-md bg-ink-50 px-2.5 py-1.5 text-xs">
                   <Badge tone={r.ok ? (r.status === 'degraded' ? 'warning' : 'success') : 'danger'}>{r.status}</Badge>
                   <code className="font-mono text-ink-700">{r.toolName}</code>
                   {r.supplierId && <span className="text-ink-400">@{r.supplierId}</span>}

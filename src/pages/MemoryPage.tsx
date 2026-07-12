@@ -12,7 +12,7 @@ export function MemoryPage() {
       <div className="mx-auto max-w-2xl space-y-4 p-4 md:p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="text-lg font-bold text-ink-900">여행 기억 관리</h1>
+            <h1 className="text-2xl font-bold text-ink-900">여행 기억 관리</h1>
             <p className="text-xs text-ink-500">
               사용자가 허용한 경우에만 AI가 취향을 기억합니다. 언제든 항목별로 끄거나 삭제할 수 있습니다.
             </p>
@@ -22,8 +22,8 @@ export function MemoryPage() {
 
         <label className="flex items-center justify-between rounded-xl border border-ink-100 bg-white p-4">
           <span>
-            <span className="block text-sm font-semibold text-ink-800">여행 기억 사용</span>
-            <span className="block text-[11px] text-ink-500">끄면 AI가 저장된 취향을 추천에 사용하지 않습니다.</span>
+            <span className="block text-base font-semibold text-ink-800">여행 기억 사용</span>
+            <span className="block text-xs text-ink-500">끄면 AI가 저장된 취향을 추천에 사용하지 않습니다.</span>
           </span>
           <input
             type="checkbox"
@@ -50,10 +50,10 @@ export function MemoryPage() {
                     <Badge tone={m.enabled ? 'success' : 'neutral'}>{m.enabled ? '활성' : '비활성'}</Badge>
                   </div>
                   <p className="mt-0.5 text-sm text-ink-700">{m.value}</p>
-                  <p className="mt-0.5 text-[10px] text-ink-400">출처: {m.learnedFrom}</p>
+                  <p className="mt-0.5 text-xs text-ink-400">출처: {m.learnedFrom}</p>
                 </div>
                 <div className="flex shrink-0 items-center gap-1">
-                  <label className="flex items-center gap-1 text-[10px] text-ink-500">
+                  <label className="flex items-center gap-1 text-xs text-ink-500">
                     <input
                       type="checkbox"
                       checked={m.enabled}

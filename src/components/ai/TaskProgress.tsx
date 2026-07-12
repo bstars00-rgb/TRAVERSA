@@ -20,7 +20,7 @@ export function TaskProgress({ tasks }: { tasks: AITask[] }) {
           >
             {task.label}
           </span>
-          {task.detail && <span className="truncate text-[11px] text-ink-400">— {task.detail}</span>}
+          {task.detail && <span className="truncate text-xs text-ink-400">— {task.detail}</span>}
         </li>
       ))}
     </ul>

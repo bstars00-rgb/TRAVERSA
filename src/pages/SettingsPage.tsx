@@ -33,13 +33,13 @@ export function SettingsPage() {
     <div className="h-full overflow-y-auto">
       <div className="mx-auto max-w-2xl space-y-4 p-4 md:p-6">
         <div>
-          <h1 className="text-lg font-bold text-ink-900">설정</h1>
+          <h1 className="text-2xl font-bold text-ink-900">설정</h1>
           <p className="text-xs text-ink-500">데모 시연과 데이터 초기화</p>
         </div>
 
         <section className="rounded-xl border border-ink-100 bg-white p-4">
-          <h2 className="text-sm font-semibold text-ink-800">데모 시나리오</h2>
-          <p className="mt-0.5 text-[11px] text-ink-500">
+          <h2 className="text-base font-semibold text-ink-800">데모 시나리오</h2>
+          <p className="mt-0.5 text-xs text-ink-500">
             버튼을 누르면 대화가 자동으로 재생되어 검색까지 진행됩니다. 재시연 시 먼저 초기화하세요.
           </p>
           <ul className="mt-3 space-y-2">
@@ -47,7 +47,7 @@ export function SettingsPage() {
               <li key={d.key} className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-ink-50 p-3">
                 <div>
                   <h3 className="text-xs font-semibold text-ink-800">{d.title}</h3>
-                  <p className="text-[11px] text-ink-500">{d.detail}</p>
+                  <p className="text-xs text-ink-500">{d.detail}</p>
                 </div>
                 <Button size="sm" variant="secondary" disabled={runningDemo !== null} onClick={() => void runDemo(d.key)}>
                   <PlayCircle size={13} /> {runningDemo === d.key ? '재생 중…' : '데모 실행'}
@@ -59,7 +59,7 @@ export function SettingsPage() {
 
         <section className="rounded-xl border border-red-100 bg-white p-4">
           <h2 className="text-sm font-semibold text-red-800">Demo Reset</h2>
-          <p className="mt-0.5 text-[11px] text-ink-500">
+          <p className="mt-0.5 text-xs text-ink-500">
             대화, 여행조건, 검색 결과, 일정, 예약 준비, 여행 기억, 이벤트 로그를 모두 초기화합니다.
           </p>
           <Button variant="danger" size="sm" className="mt-3" onClick={() => setConfirmReset(true)}>
@@ -67,8 +67,8 @@ export function SettingsPage() {
           </Button>
         </section>
 
-        <section className="rounded-xl border border-ink-100 bg-white p-4 text-[11px] leading-relaxed text-ink-500">
-          <h2 className="mb-1 text-sm font-semibold text-ink-800">프로토타입 안내</h2>
+        <section className="rounded-xl border border-ink-100 bg-white p-4 text-xs leading-relaxed text-ink-500">
+          <h2 className="mb-1 text-base font-semibold text-ink-800">프로토타입 안내</h2>
           <p>
             이 프로토타입은 Mock AI와 Mock MCP Gateway만 사용합니다. 실제 Anthropic API나 공급사 API를 호출하지
             않으며, API 키가 프런트엔드에 존재하지 않습니다. 결제는 준비 단계까지만 구현되어 있습니다.

@@ -39,6 +39,11 @@ body,
   height: 100%;
 }
 
+/* 가독성을 위해 기준 폰트를 키운다 — rem 기반 유틸리티 전체가 함께 확대된다 */
+html {
+  font-size: 17px;
+}
+
 body {
   @apply bg-ink-50 text-ink-800 antialiased;
 }

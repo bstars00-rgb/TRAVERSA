@@ -25,8 +25,8 @@ export function RecheckSection() {
     <section className="rounded-xl border border-ink-100 bg-white p-4" aria-label="가격 재확인">
       <div className="flex items-center justify-between gap-2">
         <div>
-          <h3 className="text-sm font-semibold text-ink-800">최신 가격 재조회</h3>
-          <p className="text-[11px] text-ink-500">예약 직전, 모든 상품의 가격과 재고를 공급사에 다시 확인합니다.</p>
+          <h3 className="text-base font-semibold text-ink-800">최신 가격 재조회</h3>
+          <p className="text-xs text-ink-500">예약 직전, 모든 상품의 가격과 재고를 공급사에 다시 확인합니다.</p>
         </div>
         <Button variant="secondary" size="sm" onClick={() => void recheckAll()} disabled={isRechecking}>
           <RefreshCw size={13} className={isRechecking ? 'animate-spin' : ''} />
@@ -39,7 +39,7 @@ export function RecheckSection() {
           {preparation.recheckResults.map((r) => {
             const item = preparation.items.find((i) => i.id === r.bookingItemId);
             return (
-              <li key={`${r.bookingItemId}-${r.recheckedAt}`} className="flex flex-wrap items-center gap-2 rounded-lg bg-ink-50 px-2.5 py-2 text-[11px]">
+              <li key={`${r.bookingItemId}-${r.recheckedAt}`} className="flex flex-wrap items-center gap-2 rounded-lg bg-ink-50 px-2.5 py-2 text-xs">
                 {OUTCOME_ICON[r.outcome]}
                 <span className="flex-1 text-ink-700">{r.message}</span>
                 {r.previousPrice.amount !== r.currentPrice.amount && (
@@ -66,7 +66,7 @@ export function RecheckSection() {
       )}
 
       {needsAttention.length > 0 && (
-        <p className="mt-2 rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-2 text-[11px] text-amber-800" role="alert">
+        <p className="mt-2 rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-2 text-xs text-amber-800" role="alert">
           가격/재고가 변경된 상품이 {needsAttention.length}개 있습니다. 위 선택지에서 진행 방법을 직접 결정해주세요.
           대체 상품 확인이나 전체 여행 재최적화는 대화 패널에서 요청할 수 있습니다.
         </p>

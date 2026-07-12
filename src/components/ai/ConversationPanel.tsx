@@ -36,24 +36,24 @@ export function ConversationPanel() {
     <div className="flex h-full flex-col">
       <div className="border-b border-ink-100 px-4 py-2.5">
         <div className="flex items-center justify-between">
-          <h2 className="text-xs font-semibold text-ink-700">여행 상담</h2>
+          <h2 className="text-sm font-semibold text-ink-700">여행 상담</h2>
           <button
             onClick={() => setConfirmNewTrip(true)}
-            className="flex items-center gap-1 rounded-md px-2 py-1 text-[11px] font-medium text-brand-700 hover:bg-brand-50 cursor-pointer"
+            className="flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-brand-700 hover:bg-brand-50 cursor-pointer"
           >
             <Plus size={12} /> 새 여행 시작
           </button>
         </div>
         {messages.length > 0 && confidence < 1 && (
           <div className="mt-1.5 flex items-center gap-2" aria-label="여행 조건 파악 진행도">
-            <span className="text-[10px] text-ink-400">여행 조건 파악</span>
+            <span className="text-xs text-ink-400">여행 조건 파악</span>
             <div className="h-1 flex-1 overflow-hidden rounded-full bg-ink-100">
               <div
                 className="h-full rounded-full bg-brand-500 transition-all duration-500"
                 style={{ width: `${Math.round(confidence * 100)}%` }}
               />
             </div>
-            <span className="text-[10px] tabular-nums text-ink-400">{Math.round(confidence * 100)}%</span>
+            <span className="text-xs tabular-nums text-ink-400">{Math.round(confidence * 100)}%</span>
           </div>
         )}
       </div>
@@ -64,7 +64,7 @@ export function ConversationPanel() {
             <span className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-brand-700 text-white">
               <Sparkles size={17} />
             </span>
-            <p className="mt-2.5 text-sm font-semibold text-ink-800">안녕하세요, 여행 컨설턴트예요 🙂</p>
+            <p className="mt-2.5 text-base font-semibold text-ink-800">안녕하세요, 여행 컨설턴트예요 🙂</p>
             <p className="mt-1 text-xs leading-relaxed text-ink-500">
               누구와, 언제쯤, 어떤 여행을 하고 싶은지
               <br />
@@ -75,7 +75,7 @@ export function ConversationPanel() {
                 <button
                   key={s}
                   onClick={() => submit(s)}
-                  className="rounded-xl border border-brand-200 bg-white px-3 py-2 text-xs text-brand-700 transition-colors hover:bg-brand-100 cursor-pointer"
+                  className="rounded-xl border border-brand-200 bg-white px-3.5 py-2.5 text-sm text-brand-700 transition-colors hover:bg-brand-100 cursor-pointer"
                 >
                   {s}
                 </button>
@@ -92,7 +92,7 @@ export function ConversationPanel() {
                 </span>
               )}
               <div
-                className={`max-w-[92%] rounded-2xl px-3.5 py-2.5 text-[13px] leading-relaxed ${
+                className={`max-w-[92%] rounded-2xl px-4 py-3 text-[15px] leading-relaxed ${
                   msg.role === 'user'
                     ? 'rounded-br-sm bg-brand-700 text-white'
                     : 'rounded-bl-sm border border-ink-100 bg-white text-ink-700'
@@ -111,7 +111,7 @@ export function ConversationPanel() {
                       <button
                         key={q}
                         onClick={() => submit(q)}
-                        className="rounded-full border border-brand-200 bg-brand-50 px-2.5 py-1 text-[11px] text-brand-700 hover:bg-brand-100 cursor-pointer"
+                        className="rounded-full border border-brand-200 bg-brand-50 px-3 py-1.5 text-sm text-brand-700 hover:bg-brand-100 cursor-pointer"
                       >
                         {q}
                       </button>
@@ -155,7 +155,7 @@ export function ConversationPanel() {
             rows={1}
             placeholder="여행 요청이나 일정 수정을 입력하세요"
             aria-label="메시지 입력"
-            className="max-h-28 flex-1 resize-none bg-transparent px-1 py-2 text-[13px] outline-none placeholder:text-ink-400"
+            className="max-h-28 flex-1 resize-none bg-transparent px-1 py-2 text-[15px] outline-none placeholder:text-ink-400"
           />
           <IconButton label="음성 입력 (프로토타입에서는 미지원)" onClick={() => pushToast('info', '음성 입력은 프로토타입에서 지원되지 않습니다')} type="button">
             <Mic size={15} />

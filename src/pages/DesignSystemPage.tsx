@@ -31,7 +31,7 @@ const SOURCES: DataSourceType[] = ['ai_recommendation', 'live_supplier_data', 'u
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="rounded-xl border border-ink-100 bg-white p-5">
-      <h2 className="mb-4 text-sm font-semibold text-ink-800">{title}</h2>
+      <h2 className="mb-4 text-base font-semibold text-ink-800">{title}</h2>
       <div className="flex flex-wrap items-center gap-3">{children}</div>
     </section>
   );
@@ -48,7 +48,7 @@ export function DesignSystemPage() {
     <div className="h-full overflow-y-auto">
       <div className="mx-auto max-w-4xl space-y-4 p-4 md:p-8">
         <div>
-          <h1 className="text-lg font-bold text-ink-900">디자인 시스템</h1>
+          <h1 className="text-2xl font-bold text-ink-900">디자인 시스템</h1>
           <p className="text-xs text-ink-500">TRAVERSA AI 공통 컴포넌트 카탈로그 (Storybook 대체)</p>
         </div>
 
@@ -85,7 +85,7 @@ export function DesignSystemPage() {
             {PRICE_STATUSES.map((s) => (
               <div key={s} className="flex items-center gap-4">
                 <PriceDisplay amount={{ amount: 1240000, currency: 'KRW' }} status={s} capturedAt={new Date().toISOString()} />
-                <span className="text-[11px] text-ink-400">{PRICE_STATUS_META[s].description}</span>
+                <span className="text-xs text-ink-400">{PRICE_STATUS_META[s].description}</span>
               </div>
             ))}
           </div>

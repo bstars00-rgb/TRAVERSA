@@ -46,7 +46,7 @@ export function WorkspacePage() {
             key={tab.id}
             onClick={() => setMobileTab(tab.id)}
             aria-current={mobileTab === tab.id ? 'page' : undefined}
-            className={`relative flex flex-1 flex-col items-center gap-0.5 py-2.5 text-[10px] font-medium cursor-pointer ${
+            className={`relative flex flex-1 flex-col items-center gap-0.5 py-2.5 text-xs font-medium cursor-pointer ${
               mobileTab === tab.id ? 'text-brand-700' : 'text-ink-400'
             }`}
           >

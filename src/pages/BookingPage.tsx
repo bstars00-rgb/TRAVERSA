@@ -49,7 +49,7 @@ export function BookingPage() {
     <div className="h-full overflow-y-auto">
       <div className="mx-auto max-w-3xl space-y-4 p-4 md:p-6">
         <div>
-          <h1 className="text-lg font-bold text-ink-900">예약 준비</h1>
+          <h1 className="text-2xl font-bold text-ink-900">예약 준비</h1>
           <p className="text-xs text-ink-500">결제 직전까지의 준비 단계입니다. 모든 승인은 사용자가 직접 수행합니다.</p>
         </div>
 
@@ -70,7 +70,7 @@ export function BookingPage() {
         {/* 여행 전체 요약 */}
         {itinerary && (
           <section className="rounded-xl border border-ink-100 bg-white p-4">
-            <h3 className="text-sm font-semibold text-ink-800">여행 전체 일정</h3>
+            <h3 className="text-base font-semibold text-ink-800">여행 전체 일정</h3>
             <p className="mt-1 text-xs text-ink-600">
               {itinerary.destinationName} · {formatDate(itinerary.days[0].date)} ~ {formatDate(itinerary.days[itinerary.days.length - 1].date)} · {itinerary.days.length}일
             </p>
@@ -79,7 +79,7 @@ export function BookingPage() {
 
         {/* 상품 목록 */}
         <section className="space-y-3" aria-label="예약 상품">
-          <h3 className="text-sm font-semibold text-ink-800">예약 상품 {preparation.items.length}개</h3>
+          <h3 className="text-base font-semibold text-ink-800">예약 상품 {preparation.items.length}개</h3>
           {preparation.items.map((item) => (
             <BookingItemCard key={item.id} item={item} />
           ))}
@@ -87,7 +87,7 @@ export function BookingPage() {
 
         {/* 여행자 정보 */}
         <section className="space-y-3" aria-label="여행자 정보">
-          <h3 className="text-sm font-semibold text-ink-800">여행자 정보</h3>
+          <h3 className="text-base font-semibold text-ink-800">여행자 정보</h3>
           {preparation.travelers.map((t, i) => (
             <TravelerForm key={t.id} traveler={t} index={i} />
           ))}
@@ -95,10 +95,10 @@ export function BookingPage() {
 
         {/* Human-in-the-loop 확인 체크리스트 */}
         <section className="rounded-xl border border-ink-100 bg-white p-4" aria-label="사용자 확인 항목">
-          <h3 className="flex items-center gap-1.5 text-sm font-semibold text-ink-800">
+          <h3 className="flex items-center gap-1.5 text-base font-semibold text-ink-800">
             <ShieldCheck size={15} className="text-brand-700" /> 사용자 확인 항목
           </h3>
-          <p className="mt-0.5 text-[11px] text-ink-500">
+          <p className="mt-0.5 text-xs text-ink-500">
             아래 항목은 AI가 대신 승인할 수 없으며, 반드시 사용자가 직접 확인해야 합니다. 확인 시각이 승인 증적으로 기록됩니다.
           </p>
           <ul className="mt-3 space-y-2">
@@ -114,7 +114,7 @@ export function BookingPage() {
                   <span>
                     {c.label}
                     {c.confirmed && c.confirmedAt && (
-                      <span className="ml-1.5 text-[10px] text-emerald-700">
+                      <span className="ml-1.5 text-xs text-emerald-700">
                         <SourceTag source="user_confirmed" /> {new Date(c.confirmedAt).toLocaleTimeString('ko-KR')}
                       </span>
                     )}
@@ -131,7 +131,7 @@ export function BookingPage() {
             <div>
               <p className="text-xs text-ink-500">총 결제 예정금액 (세금·수수료 포함)</p>
               <p className="text-xl font-bold tabular-nums text-ink-900">{formatMoney(preparation.totalDue)}</p>
-              <p className="mt-0.5 text-[10px] text-ink-400">
+              <p className="mt-0.5 text-xs text-ink-400">
                 확인 완료 {readiness.confirmed}/{readiness.total} ·{' '}
                 {readiness.ready ? '모든 확인이 끝났습니다' : '남은 확인 항목을 완료해주세요'}
               </p>

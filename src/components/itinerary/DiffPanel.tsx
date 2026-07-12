@@ -19,12 +19,12 @@ export function DiffPanel() {
   return (
     <section className="rounded-xl border-2 border-brand-300 bg-brand-50 p-4" aria-label="일정 변경 제안">
       <h4 className="text-sm font-bold text-brand-800">일정 변경 제안</h4>
-      <p className="mt-0.5 text-[11px] text-ink-500">요청: “{diff.command}”</p>
+      <p className="mt-0.5 text-xs text-ink-500">요청: “{diff.command}”</p>
       <p className="mt-1.5 text-xs text-ink-700">{diff.summary}</p>
 
       <ul className="mt-3 space-y-1.5">
         {diff.changes.map((c, i) => (
-          <li key={i} className="flex flex-wrap items-center gap-1.5 rounded-lg bg-white px-2.5 py-1.5 text-[11px]">
+          <li key={i} className="flex flex-wrap items-center gap-1.5 rounded-lg bg-white px-2.5 py-1.5 text-xs">
             <Badge tone={KIND_TONE[c.kind]}>{KIND_LABEL[c.kind]}</Badge>
             <span className="font-medium text-ink-700">{c.label}</span>
             {c.before && c.after && (

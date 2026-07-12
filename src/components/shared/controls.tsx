@@ -49,7 +49,7 @@ export function ProgressSteps({ steps, onStepClick }: { steps: ProgressStep[]; o
             disabled={step.state === 'disabled' || !onStepClick}
             onClick={() => onStepClick?.(step.id)}
             aria-current={step.state === 'current' ? 'step' : undefined}
-            className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors ${
+            className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium transition-colors ${
               step.state === 'done'
                 ? 'bg-emerald-100 text-emerald-800'
                 : step.state === 'current'
