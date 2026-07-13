@@ -1,7 +1,13 @@
-import { Accessibility, CloudRain, GripVertical } from 'lucide-react';
+import { useState } from 'react';
+import { Accessibility, CloudRain, GripVertical, Trash2 } from 'lucide-react';
 import type { ItineraryItem } from '../../types';
-import { Badge, PriceDisplay, StatusBadge, SupplierBadge } from '../shared';
+import { Badge, ConfirmDialog, IconButton, PriceDisplay, StatusBadge, SupplierBadge } from '../shared';
 import { formatDuration } from '../../utils/format';
+import { useItineraryStore } from '../../stores/useItineraryStore';
+import { useUIStore } from '../../stores/useUIStore';
+
+/** 항공·숙소(체크인/아웃)는 검색 단계에서 변경 — 카드 삭제 대상에서 제외 */
+const NON_REMOVABLE: ItineraryItem['type'][] = ['flight', 'checkin', 'checkout', 'hotel'];
 
 /** 타입별 썸네일 이모지 — 외부 이미지 없이 사진형 무드를 전달 */
 const TYPE_EMOJI: Record<ItineraryItem['type'], string> = {
@@ -29,8 +35,13 @@ function toneClass(item: ItineraryItem): string {
 }
 
 export function ItineraryItemCard({ item }: { item: ItineraryItem }) {
+  const [confirmRemove, setConfirmRemove] = useState(false);
+  const removeItem = useItineraryStore((s) => s.removeItem);
+  const pushToast = useUIStore((s) => s.pushToast);
+  const removable = !NON_REMOVABLE.includes(item.type);
+
   return (
-    <div className="group flex gap-3 overflow-hidden rounded-xl border border-ink-100 bg-white p-2.5 shadow-sm transition-shadow hover:shadow">
+    <div className="group relative flex gap-3 overflow-hidden rounded-xl border border-ink-100 bg-white p-2.5 shadow-sm transition-shadow hover:shadow">
       {/* 드래그 핸들 (시각적 표현) */}
       <span className="mt-1 cursor-grab self-start text-ink-200 group-hover:text-ink-400" aria-hidden>
         <GripVertical size={14} />
@@ -77,6 +88,35 @@ export function ItineraryItemCard({ item }: { item: ItineraryItem }) {
         )}
         {item.aiNote && <p className="mt-1 text-xs italic text-ink-400">{item.aiNote}</p>}
       </div>
+
+      {removable && (
+        <IconButton
+          label={`"${item.title}" 일정에서 빼기`}
+          className="absolute right-1.5 top-1.5 h-8 w-8 opacity-0 transition-opacity focus-visible:opacity-100 group-hover:opacity-100"
+          onClick={() => setConfirmRemove(true)}
+        >
+          <Trash2 size={14} />
+        </IconButton>
+      )}
+
+      <ConfirmDialog
+        open={confirmRemove}
+        title="일정에서 빼기"
+        message={
+          <>
+            <strong>{item.title}</strong> 항목을 일정에서 뺄까요?
+            {item.requiresBooking && ' 예약 대상 상품이라면 예약 준비 목록에서도 제외됩니다.'}
+          </>
+        }
+        confirmLabel="빼기"
+        danger
+        onConfirm={() => {
+          removeItem(item.id);
+          setConfirmRemove(false);
+          pushToast('success', `"${item.title}" 항목을 뺐어요`);
+        }}
+        onCancel={() => setConfirmRemove(false)}
+      />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Itinerary, ItineraryDiff, RiskAlert, ValidationIssue } from '../types';
+import type { Itinerary, ItineraryDiff, ItineraryItem, RiskAlert, ValidationIssue } from '../types';
 import { validateItinerary } from '../services/itinerary/validator';
 import { assessItineraryRisk } from '../services/itinerary/risk';
 import { useTripStore } from './useTripStore';
@@ -16,6 +16,10 @@ interface ItineraryState {
   /** 사용자가 "변경 적용"을 눌렀을 때만 반영 */
   applyPendingDiff: () => void;
   rejectPendingDiff: () => void;
+  /** 사용자가 카드에서 직접 항목 삭제 (확인 다이얼로그 통과 후 호출) */
+  removeItem: (itemId: string) => void;
+  /** 사용자가 특정 날짜에 항목 직접 추가 */
+  addItem: (dayNumber: number, item: ItineraryItem) => void;
   revalidate: () => void;
   clear: () => void;
 }
@@ -51,6 +55,39 @@ export const useItineraryStore = create<ItineraryState>()(
       },
 
       rejectPendingDiff: () => set({ pendingDiff: null }),
+
+      removeItem: (itemId) => {
+        const itinerary = get().itinerary;
+        if (!itinerary) return;
+        const removed = itinerary.days.flatMap((d) => d.items).find((i) => i.id === itemId);
+        const clone = structuredClone(itinerary);
+        for (const day of clone.days) {
+          day.items = day.items.filter((i) => i.id !== itemId);
+        }
+        clone.version += 1;
+        clone.updatedAt = new Date().toISOString();
+        get().setItinerary(clone);
+        useTripStore
+          .getState()
+          .logEvent('USER_CONFIRMED', `일정 항목 삭제: ${removed?.title ?? itemId}`);
+      },
+
+      addItem: (dayNumber, item) => {
+        const itinerary = get().itinerary;
+        if (!itinerary) return;
+        const clone = structuredClone(itinerary);
+        const day = clone.days.find((d) => d.dayNumber === dayNumber);
+        if (!day) return;
+        day.items.push(item);
+        // 시간순 정렬 유지
+        day.items.sort((a, b) => a.startTime.localeCompare(b.startTime));
+        clone.version += 1;
+        clone.updatedAt = new Date().toISOString();
+        get().setItinerary(clone);
+        useTripStore
+          .getState()
+          .logEvent('USER_CONFIRMED', `Day ${dayNumber}에 일정 추가: ${item.title}`);
+      },
 
       revalidate: () => {
         const itinerary = get().itinerary;

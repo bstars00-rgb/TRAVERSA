@@ -12,6 +12,7 @@ import { RecommendationCard } from '../search/RecommendationCard';
 import { RecommendationCompareTable } from '../search/RecommendationCompareTable';
 import { FlightPicker } from '../search/FlightPicker';
 import { ItineraryItemCard } from './ItineraryItemCard';
+import { AddItemDrawer } from './AddItemDrawer';
 import { DiffPanel } from './DiffPanel';
 import { formatDate } from '../../utils/format';
 import { useUIStore } from '../../stores/useUIStore';
@@ -25,6 +26,7 @@ function dDayLabel(startIso: string): string {
 
 export function JourneyCanvas() {
   const [compareView, setCompareView] = useState<'cards' | 'table'>('cards');
+  const [addDrawerDay, setAddDrawerDay] = useState<number | null>(null);
   const itinerary = useItineraryStore((s) => s.itinerary);
   const outcome = useSearchStore((s) => s.outcome);
   const isSearching = useSearchStore((s) => s.isSearching);
@@ -175,12 +177,20 @@ export function JourneyCanvas() {
                   {day.items.map((item) => (
                     <ItineraryItemCard key={item.id} item={item} />
                   ))}
+                  <button
+                    onClick={() => setAddDrawerDay(day.dayNumber)}
+                    className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-dashed border-ink-200 py-2.5 text-sm font-medium text-ink-400 transition-colors hover:border-brand-300 hover:text-brand-700 cursor-pointer"
+                  >
+                    + Day {day.dayNumber}에 일정 추가
+                  </button>
                 </div>
               </div>
             ))}
           </section>
         )}
       </div>
+
+      <AddItemDrawer dayNumber={addDrawerDay} onClose={() => setAddDrawerDay(null)} />
     </div>
   );
 }

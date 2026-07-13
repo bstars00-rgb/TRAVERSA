@@ -192,7 +192,7 @@ function checkoutItem(offer: HotelOffer): ItineraryItem {
   };
 }
 
-function activityItem(offer: ActivityOffer, startTime: string): ItineraryItem {
+export function activityItem(offer: ActivityOffer, startTime: string): ItineraryItem {
   return {
     id: uid('item'),
     type: 'activity',
@@ -228,7 +228,7 @@ function restItem(startTime: string, durationMinutes: number): ItineraryItem {
   };
 }
 
-function estimatedItem(
+export function estimatedItem(
   type: ItineraryItem['type'],
   title: string,
   startTime: string,
